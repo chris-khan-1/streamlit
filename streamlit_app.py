@@ -40,10 +40,11 @@ for i in ["SPR"]:
             break
 
 
-b = pd.concat([pd.DataFrame(x) for x in dicts]).reset_index()
 
-spr_pos = b[b["index"].str.contains("position")].fillna(25)
-spr_points = b[b["index"].str.contains("points")].fillna(0)
+# b = pd.concat([pd.DataFrame(x) for x in dicts]).reset_index()
 
-st.dataframe(spr_pos)
-st.dataframe(spr_points)
+# spr_pos = b[b["index"].str.contains("position")].fillna(25)
+# spr_points = b[b["index"].str.contains("points")].fillna(0)
+
+# st.dataframe(spr_pos)
+# st.dataframe(spr_points)
