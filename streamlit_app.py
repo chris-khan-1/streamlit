@@ -65,4 +65,4 @@ fig1 = px.line(
 fig1['layout']['yaxis']['autorange'] = "reversed"
 
 
-st.plotly_chart(fig1, theme=None, use_container_width=True)
+st.plotly_chart(fig1)
