@@ -6,6 +6,16 @@ import plotly.express as px
 
 st.title('Wow would you look at that...')
 
+
+
+
+
+
+
+
+
+
+
 def to_dict(df, track):
     df2 = df[["Rider", "Pos.", "Points"]]
     df2["Rider"] = df2["Rider"].str.split(' ').str[1].str.split('(?<=.)(?=[A-Z])').str.join('_')
@@ -30,17 +40,17 @@ for i in ["SPR"]:
         url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
 
         data = requests.get(url).text
-        print(j, i)
+        st.write(j, i)
         try:
             df = pd.read_html(data)
             dict_ = to_dict(df[0], j)
             dicts.append(dict_)
+            st.write(dict_)
 
         except:
             break
 
-st.write(dicts)
-
+# st.write(dicts)
 
 # b = pd.concat([pd.DataFrame(x) for x in dicts]).reset_index()
 
