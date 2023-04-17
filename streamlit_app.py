@@ -6,16 +6,6 @@ import plotly.express as px
 
 st.title('Wow would you look at that...')
 
-
-
-
-
-
-
-
-
-
-
 def to_dict(df, track):
     df2 = df[["Rider", "Pos.", "Points"]]
     df2["Rider"] = df2["Rider"].str.split(' ').str[1].str.split('(?<=.)(?=[A-Z])').str.join('_')
@@ -41,18 +31,20 @@ for i in ["SPR"]:
 
         data = requests.get(url).text
         st.write(j, i)
-        df = pd.read_html(data)
-        dict_ = to_dict(df[0], j)
-        dicts.append(dict_)
-        st.write(dict_)
+        try:
+            df = pd.read_html(data)
+            dict_ = to_dict(df[0], j)
+            dicts.append(dict_)
+            st.write(dict_)
+
+        except ValueError:
+            break
 
 
-# st.write(dicts)
+b = pd.concat([pd.DataFrame(x) for x in dicts]).reset_index()
 
-# b = pd.concat([pd.DataFrame(x) for x in dicts]).reset_index()
+spr_pos = b[b["index"].str.contains("position")].fillna(25)
+spr_points = b[b["index"].str.contains("points")].fillna(0)
 
-# spr_pos = b[b["index"].str.contains("position")].fillna(25)
-# spr_points = b[b["index"].str.contains("points")].fillna(0)
-
-# st.dataframe(spr_pos)
-# st.dataframe(spr_points)
+st.dataframe(spr_pos)
+st.dataframe(spr_points)
