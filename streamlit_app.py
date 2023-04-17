@@ -33,7 +33,7 @@ for i in ["RAC", "SPR"]:
         try:
             df = pd.read_html(data)
             dict_ = to_dict(df[0], j)
-            with open(f'C:/Users/ckhan/Documents/Coding/coding_projects/scraping_websites/motogp/database/{year}/{i}/{j}-{i}.json', 'w') as fp:
+            with open(f'{year}/{i}/{j}-{i}.json', 'w') as fp:
                 json.dump(dict_, fp)
 
         except:
@@ -43,7 +43,7 @@ races = []
 
 for j in ["POR","ARG","AME","SPA","FRA","ITA","GER","NED","KAZ","GBR","AUT","CAT","RSM","IND","JPN","INA","AUS","THA","MAL","QAT","VAL"]:
     try:
-        y = pd.read_json(f"C:/Users/ckhan/Documents/Coding/coding_projects/scraping_websites/motogp/database/2023/RAC/{j}-RAC.json")
+        y = pd.read_json(f"2023/RAC/{j}-RAC.json")
         races.append(y.T)
     except:
         continue
@@ -52,7 +52,7 @@ sprints = []
 
 for j in ["POR","ARG","AME","SPA","FRA","ITA","GER","NED","KAZ","GBR","AUT","CAT","RSM","IND","JPN","INA","AUS","THA","MAL","QAT","VAL"]:
     try:
-        a = pd.read_json(f"C:/Users/ckhan/Documents/Coding/coding_projects/scraping_websites/motogp/database/2023/SPR/{j}-SPR.json")
+        a = pd.read_json(f"2023/SPR/{j}-SPR.json")
         sprints.append(a.T)
     except:
         continue
