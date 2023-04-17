@@ -23,8 +23,9 @@ def to_dict(df, track):
     
     return x
 
+dicts = []
 year = 2023
-for i in ["RAC", "SPR"]:
+for i in ["SPR"]:
     for j in ["POR","ARG","AME","SPA","FRA","ITA","GER","NED","KAZ","GBR","AUT","CAT","RSM","IND","JPN","INA","AUS","THA","MAL","QAT","VAL"]:
         url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
 
@@ -33,30 +34,13 @@ for i in ["RAC", "SPR"]:
         try:
             df = pd.read_html(data)
             dict_ = to_dict(df[0], j)
-            st.write(f'{year}/{i}/{j}-{i}.json')
+            dicts.append(dict_)
 
         except:
             break
 
-races = []
 
-for j in ["POR","ARG","AME","SPA","FRA","ITA","GER","NED","KAZ","GBR","AUT","CAT","RSM","IND","JPN","INA","AUS","THA","MAL","QAT","VAL"]:
-    try:
-        y = pd.read_json(f"2023/RAC/{j}-RAC.json")
-        races.append(y.T)
-    except:
-        continue
-
-sprints = []
-
-for j in ["POR","ARG","AME","SPA","FRA","ITA","GER","NED","KAZ","GBR","AUT","CAT","RSM","IND","JPN","INA","AUS","THA","MAL","QAT","VAL"]:
-    try:
-        a = pd.read_json(f"2023/SPR/{j}-SPR.json")
-        sprints.append(a.T)
-    except:
-        continue
-
-b = pd.concat(sprints).reset_index()
+b = pd.concat([pd.read_json(x) for x in dicts]).reset_index()
 
 spr_pos = b[b["index"].str.contains("position")].fillna(25)
 spr_points = b[b["index"].str.contains("points")].fillna(0)
