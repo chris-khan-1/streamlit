@@ -39,7 +39,7 @@ for i in ["SPR"]:
         except:
             break
 
-print(dicts)
+st.write(dicts)
 
 
 # b = pd.concat([pd.DataFrame(x) for x in dicts]).reset_index()
