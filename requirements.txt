@@ -1,4 +1,4 @@
-plotly
+plotly==5.10.0
 pandas
 streamlit==1.20.0
 lxml
