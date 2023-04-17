@@ -39,7 +39,7 @@ for i in ["SPR"]:
             break
 
 
-b = pd.concat([pd.DataFrame(x).T for x in dicts]).reset_index().set_index("index")
+b = pd.concat([pd.DataFrame(x).T for x in dicts]).reset_index()
 
 spr_pos = b[b["index"].str.contains("position")].fillna(25)
 spr_points = b[b["index"].str.contains("points")].fillna(0)
@@ -65,4 +65,4 @@ fig1 = px.line(
 fig1['layout']['yaxis']['autorange'] = "reversed"
 
 
-st.plotly_chart(fig1)
+st.plotly_chart(fig1, theme="streamlit")
