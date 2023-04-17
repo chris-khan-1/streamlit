@@ -41,8 +41,8 @@ for i in ["SPR"]:
 
 b = pd.concat([pd.DataFrame(x).T for x in dicts]).reset_index()
 
-spr_pos = pd.to_numeric(b[b["index"].str.contains("position")].fillna(25))
-spr_points = pd.to_numeric(b[b["index"].str.contains("points")].fillna(0))
+spr_pos = b[b["index"].str.contains("position")].fillna(25).astype('float64')
+spr_points = b[b["index"].str.contains("points")].fillna(0)
 
 st.write(spr_pos.dtypes)
 st.write(spr_points.dtypes)
