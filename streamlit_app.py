@@ -30,21 +30,20 @@ for i in ["SPR"]:
         url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
 
         data = requests.get(url).text
-        st.write(j, i)
         try:
             df = pd.read_html(data)
             dict_ = to_dict(df[0], j)
             dicts.append(dict_)
-            st.write(dict_)
 
         except ValueError:
             break
 
 
-b = pd.concat([pd.DataFrame(x) for x in dicts]).reset_index()
+b = pd.concat([pd.DataFrame(x).T for x in dicts]).reset_index()
 
 spr_pos = b[b["index"].str.contains("position")].fillna(25)
 spr_points = b[b["index"].str.contains("points")].fillna(0)
+
 
 st.dataframe(spr_pos)
 st.dataframe(spr_points)
