@@ -41,14 +41,11 @@ for i in ["SPR"]:
 
         data = requests.get(url).text
         st.write(j, i)
-        try:
-            df = pd.read_html(data)
-            dict_ = to_dict(df[0], j)
-            dicts.append(dict_)
-            st.write(dict_)
+        df = pd.read_html(data)
+        dict_ = to_dict(df[0], j)
+        dicts.append(dict_)
+        st.write(dict_)
 
-        except:
-            break
 
 # st.write(dicts)
 
