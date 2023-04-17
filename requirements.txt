@@ -2,3 +2,4 @@ plotly
 pandas
 streamlit==1.20.0
 lxml
+html5lib
