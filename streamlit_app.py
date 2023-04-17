@@ -47,3 +47,22 @@ spr_points = b[b["index"].str.contains("points")].fillna(0)
 
 st.dataframe(spr_pos)
 st.dataframe(spr_points)
+
+fig1 = px.line(
+                spr_pos, 
+                x=spr_pos["index"], 
+                y=spr_pos.columns[1:], 
+                template="plotly_dark",
+                labels={
+                    "index": "Track",
+                    "value": "Position",
+                    "variable": "Rider"
+                    },
+                title="MotoGp Rider Sprint Position 2023",
+                markers = True
+            )
+
+fig1['layout']['yaxis']['autorange'] = "reversed"
+
+
+st.plotly_chart(fig1, theme=None, use_container_width=True)
