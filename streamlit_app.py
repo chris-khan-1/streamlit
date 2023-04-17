@@ -40,7 +40,7 @@ for i in ["SPR"]:
             break
 
 
-b = pd.concat([pd.read_json(x) for x in dicts]).reset_index()
+b = pd.concat([pd.DataFrame(x) for x in dicts]).reset_index()
 
 spr_pos = b[b["index"].str.contains("position")].fillna(25)
 spr_points = b[b["index"].str.contains("points")].fillna(0)
