@@ -26,7 +26,7 @@ def to_dict(df, track):
     return x
 
 
-def color_survived(val):
+def color_rider(val):
     color = 'green' if val == rider else ''
     return f'background-color: {color}'
 
@@ -102,7 +102,7 @@ else:
 
 rider = st.selectbox(" ", riders)
 
-st.dataframe(df_final.reset_index(drop=True).style.applymap(color_survived))
+st.dataframe(df_final.reset_index(drop=True).style.applymap(color_rider))
 # st.write(df_final)
 
 # filter = st.text_input("Race Venue")
