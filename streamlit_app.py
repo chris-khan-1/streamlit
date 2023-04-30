@@ -127,7 +127,7 @@ else:
         dfs.append(df.filter(like=i, axis=1))
     df_final = pd.concat(dfs, axis=1)
 
-df_final["position"] = range(1,len(df_final)+1)
+df_final["Pos."] = range(1,len(df_final)+1)
 df_final.set_index("position", inplace=True)
 
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
