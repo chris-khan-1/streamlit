@@ -76,7 +76,7 @@ else:
 
 rider = st.selectbox(" ", ["Marc_Marquez","Alex_Rins","Francesco_Bagnaia","Enea_Bastianini","Franco_Morbidelli"])
 
-st.dataframe(df_final.style.applymap(color_survived))
+st.dataframe(df_final.reset_index(drop=True).style.applymap(color_survived))
 # st.write(df_final)
 
 # filter = st.text_input("Race Venue")
