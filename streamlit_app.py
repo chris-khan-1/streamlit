@@ -4,7 +4,7 @@ import pandas as pd
 import json
 import plotly.express as px
 
-# st.set_page_config(layout="wide")
+st.set_page_config(layout="wide")
 st.title('Wow would you look at that...')
 
 
@@ -132,7 +132,7 @@ df_final["Pos."] = range(1,len(df_final)+1)
 df_final.set_index("Pos.", inplace=True)
 
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
-st.dataframe(df_final.style.apply(lambda x:['background-color: green' if s==rider else '' for s in x]))
+st.dataframe(df_final.style.apply(lambda x:['background-color: green' if s==rider else '' for s in x]), use_container_width=True)
 
 # spr_points = b[b["index"].str.contains("points")].fillna(0)
 # cols2 = spr_points.columns
