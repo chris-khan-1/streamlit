@@ -4,7 +4,7 @@ import pandas as pd
 import json
 import plotly.express as px
 
-st.set_page_config(layout="wide")
+# st.set_page_config(layout="wide")
 st.title('Wow would you look at that...')
 
 
