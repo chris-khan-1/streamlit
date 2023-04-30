@@ -128,8 +128,8 @@ else:
     df_final = pd.concat(dfs, axis=1)
 
 
-st.dataframe(df_final.reset_index(drop=True).style.applymap(color_rider).set_index("position"))
-
+# st.dataframe(df_final.reset_index().style.applymap(color_rider))
+st.dataframe(df_final.style.apply(lambda x:['background-color: green' if s==rider else '' for s in x]))
 
 # spr_points = b[b["index"].str.contains("points")].fillna(0)
 # cols2 = spr_points.columns
