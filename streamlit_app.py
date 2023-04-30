@@ -23,7 +23,7 @@ def to_dict(df, track):
     
     return x
 
-df = pd.read_csv("./2019-2022_finishes.csv")
+df = pd.read_csv(".data//2019-2022_finishes.csv")
 df = df.set_index("position")
 track = st.selectbox(" ", ["QAT","INA","ARG","AME","POR","SPA","FRA","ITA","CAT","GER","NED","GBR","AUT","RSM","ARA","JPN","THA","AUS","MAL","VAL"])
 df = df.filter(like=track, axis=1)
