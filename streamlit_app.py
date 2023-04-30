@@ -103,55 +103,55 @@ else:
 rider = st.selectbox(" ", riders)
 
 st.dataframe(df_final.reset_index(drop=True).style.applymap(color_rider))
-# st.write(df_final)
-
-# filter = st.text_input("Race Venue")
 
 
-# dicts = []
-# year = 2023
-# for i in ["SPR"]:
-#     for j in ["POR","ARG","AME","SPA","FRA","ITA","GER","NED","KAZ","GBR","AUT","CAT","RSM","IND","JPN","INA","AUS","THA","MAL","QAT","VAL"]:
-#         url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
 
-#         data = requests.get(url).text
-#         try:
-#             df = pd.read_html(data)
-#             dict_ = to_dict(df[0], j)
-#             dicts.append(dict_)
+dicts = []
+year = 2023
+for i in ["SPR"]:
+    for j in ["POR","ARG","AME","SPA","FRA","ITA","GER","NED","KAZ","GBR","AUT","CAT","RSM","IND","JPN","INA","AUS","THA","MAL","QAT","VAL"]:
+        url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
 
-#         except ValueError:
-#             break
+        data = requests.get(url).text
+        try:
+            df = pd.read_html(data)
+            dict_ = to_dict(df[0], j)
+            dicts.append(dict_)
+
+        except ValueError:
+            break
 
 
-# b = pd.concat([pd.DataFrame(x).T for x in dicts]).reset_index()
+b = pd.concat([pd.DataFrame(x).T for x in dicts]).reset_index()
 
-# spr_pos = b[b["index"].str.contains("position")].fillna(25)
-# cols1 = spr_pos.columns
-# spr_pos[cols1[1:]] = spr_pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+spr_pos = b[b["index"].str.contains("position")].fillna(25)
+cols1 = spr_pos.columns
+spr_pos[cols1[1:]] = spr_pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
 
-# spr_points = b[b["index"].str.contains("points")].fillna(0)
-# cols2 = spr_points.columns
-# spr_points[cols2[1:]] = spr_points[cols2[1:]].apply(pd.to_numeric, errors='coerce')
+spr_points = b[b["index"].str.contains("points")].fillna(0)
+cols2 = spr_points.columns
+spr_points[cols2[1:]] = spr_points[cols2[1:]].apply(pd.to_numeric, errors='coerce')
+
+spr_pos.to_csv("./data/sprint_position.csv", index=False)
 
 # st.dataframe(spr_pos)
 # st.dataframe(spr_points)
 
-# fig1 = px.line(
-#                 spr_pos,
-#                 x=spr_pos["index"],
-#                 y=spr_pos.columns[1:],
-#                 template="plotly_dark",
-#                 labels={
-#                     "index": "Track",
-#                     "value": "Position",
-#                     "variable": "Rider"
-#                     },
-#                 title="MotoGp Rider Sprint Position 2023",
-#                 markers = True
-#             )
+fig1 = px.line(
+                spr_pos,
+                x=spr_pos["index"],
+                y=spr_pos.columns[1:],
+                template="plotly_dark",
+                labels={
+                    "index": "Track",
+                    "value": "Position",
+                    "variable": "Rider"
+                    },
+                title="MotoGp Rider Sprint Position 2023",
+                markers = True
+            )
 
-# fig1['layout']['yaxis']['autorange'] = "reversed"
+fig1['layout']['yaxis']['autorange'] = "reversed"
 
 
-# st.plotly_chart(fig1, theme="streamlit")
+st.plotly_chart(fig1, theme="streamlit")
