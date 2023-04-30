@@ -6,9 +6,11 @@ import plotly.express as px
 
 st.title('Wow would you look at that...')
 
+
 def to_dict(df, track):
     df2 = df[["Rider", "Pos.", "Points"]]
-    df2["Rider"] = df2["Rider"].str.split(' ').str[1].str.split('(?<=.)(?=[A-Z])').str.join('_')
+    df2["Rider"] = df2["Rider"].str.split(
+        ' ').str[1].str.split('(?<=.)(?=[A-Z])').str.join('_')
     # df2 = df2.fillna("na")
     df2.columns = ["rider", f"{track}-position", f"{track}-points"]
     df2 = df2.set_index("rider")
@@ -20,17 +22,49 @@ def to_dict(df, track):
             del j["who"]
         except:
             continue
-    
+
     return x
+
+
+tracks = {"NED": "Assen (Netherlands)",
+          "ITA": "Mugello (Italy)",
+          "RSM": "Misano (San Marino)",
+          "FRA": "Le Mans (France)",
+          "GBR": "Silverstone (Britain)",
+          "GER": "Sachsenring (Germany)",
+          "JPN": "Motegi (Japan)",
+          "ANC": "Jerez (Spain)",
+          "DOH": "Losail (Qatar)",
+          "INA": "Mandalika (Indonesia)",
+          "EUR": "Ricardo Tormo (Valencia)",
+          "ARA": "Aragon",
+          "MAL": "Sepang (Malaysia)",
+          "AUS": "Phillip Island (Australia)",
+          "AME": "COTA (America)",
+          "ALR": "Portimao (Portugal)",
+          "SPA": "Jerez (Spain)",
+          "CZE": "Brno (Czech Republic)",
+          "CAT": "Catalunya (Barcelona)",
+          "TER": "Aragon",
+          "EMI": "Misano (San Marino)",
+          "STY": "Red Bull Ring (Austria)",
+          "ARG": "Termas de Rio Hondo (Argentina)",
+          "VAL": "Ricardo Tormo (Valencia)",
+          "THA": "Buriram (Thailand)",
+          "AUT": "Red Bull Ring (Austria)",
+          "QAT": "Losail (Qatar)",
+          "POR": "Portimao (Portugal)"}
 
 df = pd.read_csv("./data/2019-2022_finishes.csv")
 df = df.set_index("position")
-track = st.selectbox(" ", ["QAT","INA","ARG","AME","POR","SPA","FRA","ITA","CAT","GER","NED","GBR","AUT","RSM","ARA","JPN","THA","AUS","MAL","VAL"])
-df = df.filter(like=track, axis=1)
+
+track = st.selectbox(" ", tracks.values())
+acronyms = [i for i,j in tracks.items() if j == track]
+
+df = df.filter(like=acronyms[0], axis=1)
 st.write(df)
 
 # filter = st.text_input("Race Venue")
-
 
 
 # dicts = []
@@ -63,9 +97,9 @@ st.write(df)
 # st.dataframe(spr_points)
 
 # fig1 = px.line(
-#                 spr_pos, 
-#                 x=spr_pos["index"], 
-#                 y=spr_pos.columns[1:], 
+#                 spr_pos,
+#                 x=spr_pos["index"],
+#                 y=spr_pos.columns[1:],
 #                 template="plotly_dark",
 #                 labels={
 #                     "index": "Track",
