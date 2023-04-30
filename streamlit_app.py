@@ -157,9 +157,9 @@ fig1 = px.line(
             )
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
+fig1.update_layout(height=800)
 
-
-st.plotly_chart(fig1, theme="streamlit")
+st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=800)
 
 
 race_dicts = get_results("RAC")
