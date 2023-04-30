@@ -25,8 +25,8 @@ def to_dict(df, track):
 
 df = pd.read_csv("./2019-2022_finishes.csv")
 df = df.set_index("position")
-df = df.filter(like='FRA', axis=1)
-st.dataframe(df)
+# df = df.filter(like='FRA', axis=1)
+st.write(df)
 # dicts = []
 # year = 2023
 # for i in ["SPR"]:
