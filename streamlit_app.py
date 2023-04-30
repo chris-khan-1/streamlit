@@ -25,10 +25,10 @@ def to_dict(df, track):
 
     return x
 
-def color_survived(val):
-    color='green' if val==rider else ''
-    return f'background-color: {color}'
 
+def color_survived(val):
+    color = 'green' if val == rider else ''
+    return f'background-color: {color}'
 
 
 tracks = {"NED": "Assen (Netherlands)",
@@ -60,13 +60,39 @@ tracks = {"NED": "Assen (Netherlands)",
           "QAT": "Losail (Qatar)",
           "POR": "Portimao (Portugal)"}
 
+riders = ['Jorge_Lorenzo',
+          'Andrea_Dovizioso',
+          'Johann_Zarco',
+          'Marco_Bezzecchi',
+          'Brad_Binder',
+          'Jorge_Martin',
+          'Aleix_Espargaro',
+          'Takaaki_Nakagami',
+          'Valentino_Rossi',
+          'Fabio_Quartararo',
+          'Alex_Rins',
+          'Darryn_Binder',
+          'Miguel_Oliveira',
+          'Jack_Miller',
+          'Joan_Mir',
+          'Marc_Marquez',
+          'Lorenzo_Savadori',
+          'Luca_Marini',
+          'Fabio_Di',
+          'Alex_Marquez',
+          'Franco_Morbidelli',
+          'Francesco_Bagnaia',
+          'Maverick_Viñales',
+          'Enea_Bastianini',
+          'Dani_Pedrosa']
+
 df = pd.read_csv("./data/2019-2022_finishes.csv")
 df = df.set_index("position")
 
 track = st.selectbox(" ", set(tracks.values()))
-acronyms = [i for i,j in tracks.items() if j == track]
+acronyms = [i for i, j in tracks.items() if j == track]
 
-if len(acronyms)==1:
+if len(acronyms) == 1:
     df_final = df.filter(like=acronyms[0], axis=1)
 else:
     dfs = []
@@ -74,7 +100,7 @@ else:
         dfs.append(df.filter(like=i, axis=1))
     df_final = pd.concat(dfs, axis=1)
 
-rider = st.selectbox(" ", ["Marc_Marquez","Alex_Rins","Francesco_Bagnaia","Enea_Bastianini","Franco_Morbidelli"])
+rider = st.selectbox(" ", riders)
 
 st.dataframe(df_final.reset_index(drop=True).style.applymap(color_survived))
 # st.write(df_final)
