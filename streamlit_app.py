@@ -26,7 +26,6 @@ def to_dict(df, track):
 df = pd.read_csv("./2019-2022_finishes.csv")
 df = df.set_index("position")
 # df = df.filter(like='FRA', axis=1)
-st.write(df)
 regular_search_term =df.columns.tolist()
 choices = st.multiselect(" ",regular_search_term)
 st.write(df[choices])
