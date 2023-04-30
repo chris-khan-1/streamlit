@@ -61,7 +61,14 @@ df = df.set_index("position")
 track = st.selectbox(" ", set(tracks.values()))
 acronyms = [i for i,j in tracks.items() if j == track]
 
-df = df.filter(like=acronyms[0], axis=1)
+if len(acronyms)==1:
+    df_final = df.filter(like=acronyms[0], axis=1)
+else:
+    dfs = []
+    for i in acronyms:
+        dfs.append(df.filter(like=i, axis=1))
+    df_final = pd.concat(dfs, axis=1)
+    
 st.write(df)
 
 # filter = st.text_input("Race Venue")
