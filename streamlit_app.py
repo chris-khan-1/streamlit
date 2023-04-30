@@ -68,8 +68,8 @@ else:
     for i in acronyms:
         dfs.append(df.filter(like=i, axis=1))
     df_final = pd.concat(dfs, axis=1)
-    
-st.write(df)
+
+st.write(df_final)
 
 # filter = st.text_input("Race Venue")
 
