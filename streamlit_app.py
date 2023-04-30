@@ -130,20 +130,13 @@ rider = st.selectbox(" ", riders)
 st.dataframe(df_final.reset_index(drop=True).style.applymap(color_rider))
 
 
-
-sprint_dicts = get_results("SPR")
-
-spr_pos = to_position_df(sprint_dicts)
-
-
 # spr_points = b[b["index"].str.contains("points")].fillna(0)
 # cols2 = spr_points.columns
 # spr_points[cols2[1:]] = spr_points[cols2[1:]].apply(pd.to_numeric, errors='coerce')
 
-# spr_pos.to_csv("./data/sprint_position.csv", index=False)
+sprint_dicts = get_results("SPR")
 
-# st.dataframe(spr_pos)
-# st.dataframe(spr_points)
+spr_pos = to_position_df(sprint_dicts)
 
 fig1 = px.line(
                 spr_pos,
@@ -167,7 +160,7 @@ st.plotly_chart(fig1, theme="streamlit")
 
 race_dicts = get_results("RAC")
 
-rac_pos = to_position_df(sprint_dicts)
+rac_pos = to_position_df(race_dicts)
 
 fig2 = px.line(
                 rac_pos,
