@@ -25,6 +25,12 @@ def to_dict(df, track):
 
     return x
 
+def color_survived(val, rider):
+    if val==rider:
+        color = 'green'
+    return f'background-color: {color}'
+
+
 
 tracks = {"NED": "Assen (Netherlands)",
           "ITA": "Mugello (Italy)",
@@ -69,7 +75,10 @@ else:
         dfs.append(df.filter(like=i, axis=1))
     df_final = pd.concat(dfs, axis=1)
 
-st.write(df_final)
+rider = st.selectbox(" ", ["Marc_Marquez","Alex_Rins","Francesco_Bagnaia","Enea_Bastianini","Franco_Morbidelli"])
+
+st.dataframe(df.style.applymap(color_survived))
+# st.write(df_final)
 
 # filter = st.text_input("Race Venue")
 
