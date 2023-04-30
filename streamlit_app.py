@@ -183,7 +183,7 @@ fig2 = px.line(
                 markers = True
             )
 
-fig1['layout']['yaxis']['autorange'] = "reversed"
+fig2['layout']['yaxis']['autorange'] = "reversed"
 
 
 st.plotly_chart(fig2, theme="streamlit")
