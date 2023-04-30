@@ -155,7 +155,7 @@ fig1 = px.line(
                     "value": "Position",
                     "variable": "Rider"
                     },
-                title="MotoGp Rider Sprint Position 2023",
+                title="MotoGp Rider Sprint Positions 2023",
                 markers = True
             )
 
@@ -164,6 +164,10 @@ fig1['layout']['yaxis']['autorange'] = "reversed"
 
 st.plotly_chart(fig1, theme="streamlit")
 
+
+race_dicts = get_results("RAC")
+
+rac_pos = to_position_df(sprint_dicts)
 
 fig2 = px.line(
                 spr_pos,
@@ -175,11 +179,11 @@ fig2 = px.line(
                     "value": "Position",
                     "variable": "Rider"
                     },
-                title="MotoGp Rider Sprint Position 2023",
+                title="MotoGp Rider Race Positions 2023",
                 markers = True
             )
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
 
 
-st.plotly_chart(fig1, theme="streamlit")
+st.plotly_chart(fig2, theme="streamlit")
