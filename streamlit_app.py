@@ -27,8 +27,10 @@ df = pd.read_csv("./2019-2022_finishes.csv")
 df = df.set_index("position")
 # regular_search_term =df.columns.tolist()
 track = st.multiselect(" ", ["QAT","INA","ARG","AME","POR","SPA","FRA","ITA","CAT","GER","NED","GBR","AUT","RSM","ARA","JPN","THA","AUS","MAL","VAL"])
+print(track)
+st.write(track)
 df = df.filter(like=track, axis=1)
-st.write(df)
+# st.write(df)
 
 # filter = st.text_input("Race Venue")
 
