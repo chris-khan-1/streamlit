@@ -115,6 +115,8 @@ df = pd.read_csv("./data/2019-2022_finishes.csv")
 df = df.set_index("position")
 
 track = st.selectbox(" ", set(tracks.values()))
+rider = st.selectbox(" ", riders)
+
 acronyms = [i for i, j in tracks.items() if j == track]
 
 if len(acronyms) == 1:
@@ -125,7 +127,6 @@ else:
         dfs.append(df.filter(like=i, axis=1))
     df_final = pd.concat(dfs, axis=1)
 
-rider = st.selectbox(" ", riders)
 
 st.dataframe(df_final.reset_index(drop=True).style.applymap(color_rider))
 
