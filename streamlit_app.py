@@ -23,7 +23,7 @@ def to_dict(df, track):
     
     return x
 
-df = pd.read_csv("./2019-2022.csv")
+df = pd.read_csv("./2019-2022_finishes.csv")
 df = df.filter(like='FRA', axis=1)
 st.dataframe(df)
 # dicts = []
