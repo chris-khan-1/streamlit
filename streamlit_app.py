@@ -58,7 +58,7 @@ tracks = {"NED": "Assen (Netherlands)",
 df = pd.read_csv("./data/2019-2022_finishes.csv")
 df = df.set_index("position")
 
-track = st.selectbox(" ", tracks.values())
+track = st.selectbox(" ", set(tracks.values()))
 acronyms = [i for i,j in tracks.items() if j == track]
 
 df = df.filter(like=acronyms[0], axis=1)
