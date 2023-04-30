@@ -170,9 +170,9 @@ race_dicts = get_results("RAC")
 rac_pos = to_position_df(sprint_dicts)
 
 fig2 = px.line(
-                spr_pos,
-                x=spr_pos["index"],
-                y=spr_pos.columns[1:],
+                rac_pos,
+                x=rac_pos["index"],
+                y=rac_pos.columns[1:],
                 template="plotly_dark",
                 labels={
                     "index": "Track",
