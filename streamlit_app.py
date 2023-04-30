@@ -26,6 +26,7 @@ def to_dict(df, track):
     return x
 
 def color_survived(val):
+    color='red'
     if val==rider:
         color = 'green'
     return f'background-color: {color}'
