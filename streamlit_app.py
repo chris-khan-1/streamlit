@@ -31,11 +31,12 @@ def color_rider(val):
     color = 'green' if val == rider else ''
     return f'background-color: {color}'
 
+
 def get_results(race_type):
     dicts = []
     year = 2023
     for i in [race_type]:
-        for j in ["POR","ARG","AME","SPA","FRA","ITA","GER","NED","KAZ","GBR","AUT","CAT","RSM","IND","JPN","INA","AUS","THA","MAL","QAT","VAL"]:
+        for j in ["POR", "ARG", "AME", "SPA", "FRA", "ITA", "GER", "NED", "KAZ", "GBR", "AUT", "CAT", "RSM", "IND", "JPN", "INA", "AUS", "THA", "MAL", "QAT", "VAL"]:
             url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
 
             data = requests.get(url).text
@@ -48,12 +49,14 @@ def get_results(race_type):
                 break
     return dicts
 
+
 def to_position_df(dicts_):
     b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
 
     spr_pos = b[b["index"].str.contains("position")].fillna(25)
     cols1 = spr_pos.columns
-    spr_pos[cols1[1:]] = spr_pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+    spr_pos[cols1[1:]] = spr_pos[cols1[1:]].apply(
+        pd.to_numeric, errors='coerce')
     return spr_pos
 
 
@@ -86,31 +89,33 @@ tracks = {"NED": "Assen (Netherlands)",
           "QAT": "Losail (Qatar)",
           "POR": "Portimao (Portugal)"}
 
-riders = ['Jorge_Lorenzo',
-          'Andrea_Dovizioso',
-          'Johann_Zarco',
-          'Marco_Bezzecchi',
-          'Brad_Binder',
-          'Jorge_Martin',
-          'Aleix_Espargaro',
-          'Takaaki_Nakagami',
-          'Valentino_Rossi',
-          'Fabio_Quartararo',
-          'Alex_Rins',
-          'Darryn_Binder',
-          'Miguel_Oliveira',
-          'Jack_Miller',
-          'Joan_Mir',
-          'Marc_Marquez',
-          'Lorenzo_Savadori',
-          'Luca_Marini',
-          'Fabio_Di',
-          'Alex_Marquez',
-          'Franco_Morbidelli',
-          'Francesco_Bagnaia',
-          'Maverick_Viñales',
-          'Enea_Bastianini',
-          'Dani_Pedrosa']
+riders = [
+            'Francesco_Bagnaia',
+            'Brad_Binder',
+            'Jorge_Martin',
+            'Jack_Miller',
+            'Marco_Bezzecchi',
+            'Johann_Zarco',
+            'Andrea_Dovizioso',
+            'Aleix_Espargaro',
+            'Takaaki_Nakagami',
+            'Valentino_Rossi',
+            'Fabio_Quartararo',
+            'Alex_Rins',
+            'Darryn_Binder',
+            'Miguel_Oliveira',
+            'Jorge_Lorenzo',
+            'Joan_Mir',
+            'Marc_Marquez',
+            'Lorenzo_Savadori',
+            'Luca_Marini',
+            'Fabio_Di',
+            'Alex_Marquez',
+            'Franco_Morbidelli',
+            'Maverick_Viñales',
+            'Enea_Bastianini',
+            'Dani_Pedrosa'
+            ]
 
 df = pd.read_csv("./data/2019-2022_finishes.csv")
 df = df.set_index("position")
@@ -128,11 +133,12 @@ else:
         dfs.append(df.filter(like=i, axis=1))
     df_final = pd.concat(dfs, axis=1)
 
-df_final["Pos."] = range(1,len(df_final)+1)
+df_final["Pos."] = range(1, len(df_final)+1)
 df_final.set_index("Pos.", inplace=True)
 
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
-st.dataframe(df_final.style.apply(lambda x:['background-color: green' if s==rider else '' for s in x]), use_container_width=True)
+st.dataframe(df_final.style.apply(lambda x: [
+             'background-color: green' if s == rider else '' for s in x]), use_container_width=True)
 
 # spr_points = b[b["index"].str.contains("points")].fillna(0)
 # cols2 = spr_points.columns
@@ -143,18 +149,18 @@ sprint_dicts = get_results("SPR")
 spr_pos = to_position_df(sprint_dicts)
 
 fig1 = px.line(
-                spr_pos,
-                x=spr_pos["index"],
-                y=spr_pos.columns[1:],
-                template="plotly_dark",
-                labels={
-                    "index": "Track",
-                    "value": "Position",
-                    "variable": "Rider"
-                    },
-                title="MotoGp Rider Sprint Positions 2023",
-                markers = True
-            )
+    spr_pos,
+    x=spr_pos["index"],
+    y=spr_pos.columns[1:],
+    template="plotly_dark",
+    labels={
+        "index": "Track",
+        "value": "Position",
+        "variable": "Rider"
+    },
+    title="MotoGp Rider Sprint Positions 2023",
+    markers=True
+)
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
 fig1.update_layout(height=600)
@@ -167,18 +173,18 @@ race_dicts = get_results("RAC")
 rac_pos = to_position_df(race_dicts)
 
 fig2 = px.line(
-                rac_pos,
-                x=rac_pos["index"],
-                y=rac_pos.columns[1:],
-                template="plotly_dark",
-                labels={
-                    "index": "Track",
-                    "value": "Position",
-                    "variable": "Rider"
-                    },
-                title="MotoGp Rider Race Positions 2023",
-                markers = True
-            )
+    rac_pos,
+    x=rac_pos["index"],
+    y=rac_pos.columns[1:],
+    template="plotly_dark",
+    labels={
+        "index": "Track",
+        "value": "Position",
+        "variable": "Rider"
+    },
+    title="MotoGp Rider Race Positions 2023",
+    markers=True
+)
 
 fig2['layout']['yaxis']['autorange'] = "reversed"
 fig2.update_layout(height=600)
