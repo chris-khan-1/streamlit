@@ -183,6 +183,10 @@ st.markdown(vert_space, unsafe_allow_html=True)
 st.subheader("MotoGP Current Results")
 
 st.caption("Double click a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
+
+sorted_riders = sorted(rac_pos.columns)
+sorted_riders.remove('index')
+
 # plot of sprint positions
 fig1 = px.line(
     spr_pos,
@@ -196,7 +200,7 @@ fig1 = px.line(
     },
     title="MotoGp Rider Sprint Positions 2023",
     markers=True,
-    category_orders={"rider": sorted(spr_pos.columns).remove('index')}
+    category_orders={"rider": sorted_riders}
 )
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
@@ -217,43 +221,14 @@ fig2 = px.line(
     },
     title="MotoGp Rider Race Positions 2023",
     markers=True,
-    category_orders={"rider": sorted(rac_pos.columns).remove('index')}
+    category_orders={"rider": sorted_riders}
 )
 
 fig2['layout']['yaxis']['autorange'] = "reversed"
 fig2.update_layout(height=600)
 
-st.write(sorted(rac_pos.columns).remove('index'))
+
 
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
 
-[
-  "Aleix_Espargaro",
-  "Alex_Marquez",
-  "Alex_Rins",
-  "Augusto_Fernandez",
-  "Brad_Binder",
-  "Dani_Pedrosa",
-  "Danilo_Petrucci",
-  "Fabio_Di",
-  "Fabio_Quartararo",
-  "Francesco_Bagnaia",
-  "Franco_Morbidelli",
-  "Iker_Lecuona",
-  "Jack_Miller",
-  "Joan_Mir",
-  "Johann_Zarco",
-  "Jonas_Folger",
-  "Jorge_Martin",
-  "Lorenzo_Savadori",
-  "Luca_Marini",
-  "Marc_Marquez",
-  "Marco_Bezzecchi",
-  "Maverick_Viñales",
-  "Michele_Pirro",
-  "Miguel_Oliveira",
-  "Raul_Fernandez",
-  "Stefan_Bradl",
-  "Takaaki_Nakagami",
-  "index"
-]
+st.write(sorted(rac_pos.columns).remove('index'))
