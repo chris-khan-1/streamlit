@@ -53,8 +53,7 @@ def to_position_df(dicts_):
 
     spr_pos = b[b["index"].str.contains("position")].fillna(25)
     cols1 = spr_pos.columns
-    spr_pos[cols1[1:]] = spr_pos[cols1[1:]].apply(
-        pd.to_numeric, errors='coerce')
+    spr_pos[cols1[1:]] = spr_pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
     return spr_pos
 
 
@@ -121,7 +120,7 @@ df = df.set_index("position")
 # get sprint results
 sprint_dicts = get_results("SPR")
 spr_pos = to_position_df(sprint_dicts)
-
+spr_pos.to_csv("./data/spr_pos.csv", index=False)
 # get race results
 race_dicts = get_results("RAC")
 rac_pos = to_position_df(race_dicts)
@@ -153,6 +152,7 @@ else:
 
 df_final["Pos."] = range(1, len(df_final)+1)
 df_final.set_index("Pos.", inplace=True)
+
 
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
 st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider else '' for s in x]), use_container_width=True)
