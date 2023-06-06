@@ -157,14 +157,13 @@ df_final.set_index("Pos.", inplace=True)
 df_final.fillna('', inplace=True)
 df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
 
-st.write(rider)
 
 if len(rider) == 1:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: #004f05' if s == rider[0] else '' for s in x]), use_container_width=True)
 elif len(rider) == 2:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #273346' if s == rider[1] else '' for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: #004f05' if s == rider[0] else '' 'background-color: #4f003f' if s == rider[1] else '' for s in x]), use_container_width=True)
 elif len(rider) == 3:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: orange' if s == rider[1] else '' for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: #004f05' if s == rider[0] else '' 'background-color: #4f003f' if s == rider[1] else '' 'background-color: #273346' if s == rider[2] else ''for s in x]), use_container_width=True)
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
 
 
