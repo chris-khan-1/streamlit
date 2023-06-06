@@ -126,16 +126,23 @@ spr_pos = to_position_df(sprint_dicts)
 race_dicts = get_results("RAC")
 rac_pos = to_position_df(race_dicts)
 
+
 # START OF PAGE LAYOUT
 
-
-st.title('MotoGP Analytics')
-
+st.title('MotoGP Analytics \n')
+vert_space = '<div style="padding: 180px 5px;"></div>'
 
 # select box for rider and track to highlight
 track = st.selectbox("Select which track you would like information about", set(tracks.values()))
 rider = st.selectbox("Select the rider you would like to highlight", riders)
 
+c1, c2 = st.columns(2)
+with c1:
+    sel1= st.selectbox("Report Type", ("normal", "full"))
+with c2:
+    track= st.text_input("enter track no").upper()
+
+# filtering dataframe based on user selection
 acronyms = [i for i, j in tracks.items() if j == track]
 
 if len(acronyms) == 1:
@@ -150,15 +157,9 @@ df_final["Pos."] = range(1, len(df_final)+1)
 df_final.set_index("Pos.", inplace=True)
 
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
-st.dataframe(df_final.style.apply(lambda x: [
-             'background-color: green' if s == rider else '' for s in x]), use_container_width=True)
+st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider else '' for s in x]), use_container_width=True)
 
-# spr_points = b[b["index"].str.contains("points")].fillna(0)
-# cols2 = spr_points.columns
-# spr_points[cols2[1:]] = spr_points[cols2[1:]].apply(pd.to_numeric, errors='coerce')
-
-
-
+# plot of sprint positions
 fig1 = px.line(
     spr_pos,
     x=spr_pos["index"],
@@ -178,9 +179,7 @@ fig1.update_layout(height=600)
 
 st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
 
-
-
-
+# plot of race positions
 fig2 = px.line(
     rac_pos,
     x=rac_pos["index"],
