@@ -29,7 +29,7 @@ def color_rider(val):
     color = 'green' if val == rider else ''
     return f'background-color: {color}'
 
-
+@st.cache_data
 def get_results(race_type):
     dicts = []
     year = 2023
@@ -47,7 +47,7 @@ def get_results(race_type):
                 break
     return dicts
 
-
+@st.cache_data
 def to_position_df(dicts_):
     b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
 
