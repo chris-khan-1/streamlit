@@ -133,14 +133,14 @@ st.title('MotoGP Analytics \n')
 vert_space = '<div style="padding: 180px 5px;"></div>'
 
 # select box for rider and track to highlight
-track = st.selectbox("Select which track you would like information about", set(tracks.values()))
-rider = st.selectbox("Select the rider you would like to highlight", riders)
+# track = st.selectbox("Select which track you would like information about", set(tracks.values()))
+# rider = st.selectbox("Select the rider you would like to highlight", riders)
 
 c1, c2 = st.columns(2)
 with c1:
-    sel1= st.selectbox("Select which track you would like information about", set(tracks.values()))
+    track = st.selectbox("Select which track you would like information about", set(tracks.values()))
 with c2:
-    track= st.selectbox("Select the rider you would like to highlight", riders)
+    rider = st.selectbox("Select the rider you would like to highlight", riders)
 
 # filtering dataframe based on user selection
 acronyms = [i for i, j in tracks.items() if j == track]
