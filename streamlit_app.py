@@ -157,7 +157,7 @@ df_final.set_index("Pos.", inplace=True)
 df_final.fillna('', inplace=True)
 df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
 
-st.write(rider.values())
+st.write(rider)
 
 if len(rider) == 1:
     st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider else '' for s in x]), use_container_width=True)
