@@ -120,7 +120,7 @@ df = df.set_index("position")
 # get sprint results
 sprint_dicts = get_results("SPR")
 spr_pos = to_position_df(sprint_dicts)
-spr_pos.to_csv("./data/spr_pos.csv", index=False)
+
 # get race results
 race_dicts = get_results("RAC")
 rac_pos = to_position_df(race_dicts)
