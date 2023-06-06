@@ -138,7 +138,7 @@ c1, c2 = st.columns(2)
 with c1:
     track = st.selectbox("Select Track:", set(tracks.values()))
 with c2:
-    rider = st.selectbox("Select Rider:", riders)
+    rider = st.multiselect("Select Rider:", riders, max_selections=3, default="Francesco_Bagnaia")
 
 # filtering dataframe based on user selection
 acronyms = [i for i, j in tracks.items() if j == track]
@@ -157,6 +157,7 @@ df_final.set_index("Pos.", inplace=True)
 df_final.fillna('', inplace=True)
 df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
 
+st.write(rider)
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
 st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider else '' for s in x]), use_container_width=True)
 st.markdown(vert_space, unsafe_allow_html=True)
