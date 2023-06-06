@@ -184,6 +184,8 @@ st.subheader("MotoGP Current Results")
 
 st.caption("Double click a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
+st.write(rac_pos)
+
 sorted_riders = list(rac_pos.columns)
 sorted_riders.remove('index')
 sorted_riders = sorted(sorted_riders, key= lambda x: sum(int(x)))
