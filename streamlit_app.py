@@ -160,9 +160,9 @@ df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(
 st.write(rider)
 
 if len(rider) == 1:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider else '' for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
 elif len(rider) == 2:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider else '' for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: orange' if s == rider[1] else '' for s in x]), use_container_width=True)
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
 
 
