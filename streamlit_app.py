@@ -184,7 +184,7 @@ st.subheader("MotoGP Current Results")
 
 st.caption("Double click a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
-st.write(rac_pos.loc['Total'] = df.sum(numeric_only=True))
+st.write(df.sum(numeric_only=True))
 
 sorted_riders = list(rac_pos.columns)
 sorted_riders.remove('index')
