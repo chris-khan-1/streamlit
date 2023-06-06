@@ -126,7 +126,7 @@ spr_pos = to_position_df(sprint_dicts)
 race_dicts = get_results("RAC")
 rac_pos = to_position_df(race_dicts)
 
-
+# ________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
 
 st.title("MotoGP Analytics")
@@ -151,9 +151,10 @@ else:
         dfs.append(df.filter(like=i, axis=1))
     df_final = pd.concat(dfs, axis=1)
 
-# df_final = df_final.reindex(sorted(list(df.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
+
 df_final["Pos."] = range(1, len(df_final)+1)
 df_final.set_index("Pos.", inplace=True)
+df_final.fillna('', inplace=True)
 df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
 
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
