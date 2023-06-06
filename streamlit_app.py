@@ -223,4 +223,6 @@ fig2 = px.line(
 fig2['layout']['yaxis']['autorange'] = "reversed"
 fig2.update_layout(height=600)
 
+st.write(sorted(rac_pos.columns))
+
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
