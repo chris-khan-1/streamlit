@@ -196,7 +196,7 @@ fig1 = px.line(
     },
     title="MotoGp Rider Sprint Positions 2023",
     markers=True,
-    category_orders={"rider": spr_pos.index}
+    category_orders={"rider": sorted(spr_pos.index)}
 )
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
@@ -217,7 +217,7 @@ fig2 = px.line(
     },
     title="MotoGp Rider Race Positions 2023",
     markers=True,
-    category_orders={"rider": spr_pos.index}
+    category_orders={"rider": sorted(rac_pos.index)}
 )
 
 fig2['layout']['yaxis']['autorange'] = "reversed"
