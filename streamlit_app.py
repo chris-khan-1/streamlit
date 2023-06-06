@@ -134,7 +134,7 @@ st.markdown(
     """
 <style>
 span[data-baseweb="tag"] {
-  background-color: blue !important;
+  background-color: #363745 !important;
 }
 </style>
 """,
@@ -196,7 +196,7 @@ fig1 = px.line(
     },
     title="MotoGp Rider Sprint Positions 2023",
     markers=True,
-    category_orders="category ascending"
+    category_orders={"rider": spr_pos.index}
 )
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
@@ -217,7 +217,7 @@ fig2 = px.line(
     },
     title="MotoGp Rider Race Positions 2023",
     markers=True,
-    category_orders="category ascending"
+    category_orders={"rider": spr_pos.index}
 )
 
 fig2['layout']['yaxis']['autorange'] = "reversed"
