@@ -130,7 +130,7 @@ rac_pos = to_position_df(race_dicts)
 # START OF PAGE LAYOUT
 
 st.title("MotoGP Analytics")
-vert_space = '<div style="padding: 280px 5px;"></div>'
+vert_space = '<div style="padding: 100px 5px;"></div>'
 st.markdown(vert_space, unsafe_allow_html=True)
 st.subheader("MotoGP Previous Results")
 
