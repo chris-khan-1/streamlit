@@ -118,11 +118,19 @@ riders = [
 df = pd.read_csv("./data/2019-2022_finishes.csv")
 df = df.set_index("position")
 
+# get sprint results
+sprint_dicts = get_results("SPR")
+spr_pos = to_position_df(sprint_dicts)
 
-'''START OF PAGE LAYOUT'''
+# get race results
+race_dicts = get_results("RAC")
+rac_pos = to_position_df(race_dicts)
+
+# START OF PAGE LAYOUT
 
 
 st.title('MotoGP Analytics')
+
 
 # select box for rider and track to highlight
 track = st.selectbox("Select which track you would like information about", set(tracks.values()))
@@ -149,9 +157,7 @@ st.dataframe(df_final.style.apply(lambda x: [
 # cols2 = spr_points.columns
 # spr_points[cols2[1:]] = spr_points[cols2[1:]].apply(pd.to_numeric, errors='coerce')
 
-sprint_dicts = get_results("SPR")
 
-spr_pos = to_position_df(sprint_dicts)
 
 fig1 = px.line(
     spr_pos,
@@ -173,9 +179,7 @@ fig1.update_layout(height=600)
 st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
 
 
-race_dicts = get_results("RAC")
 
-rac_pos = to_position_df(race_dicts)
 
 fig2 = px.line(
     rac_pos,
