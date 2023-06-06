@@ -116,6 +116,8 @@ riders = [
 
 df = pd.read_csv("./data/2019-2022_finishes.csv")
 df = df.set_index("position")
+df = df.reindex(sorted(list(df.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
+
 
 # get sprint results
 sprint_dicts = get_results("SPR")
@@ -153,7 +155,6 @@ else:
 # df_final = df_final.reindex(sorted(list(df.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
 df_final["Pos."] = range(1, len(df_final)+1)
 df_final.set_index("Pos.", inplace=True)
-df_final = df_final.reindex(sorted(list(df.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
 
 print(df_final.columns)
 
