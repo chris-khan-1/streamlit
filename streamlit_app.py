@@ -150,7 +150,7 @@ else:
         dfs.append(df.filter(like=i, axis=1))
     df_final = pd.concat(dfs, axis=1)
 
-df_final = df_final.reindex(sorted(list(df.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
+# df_final = df_final.reindex(sorted(list(df.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
 df_final["Pos."] = range(1, len(df_final)+1)
 df_final.set_index("Pos.", inplace=True)
 
