@@ -134,7 +134,7 @@ st.markdown(
     """
 <style>
 span[data-baseweb="tag"] {
-  background-color: #420018 !important;
+  background-color: #af62ff !important;
 }
 </style>
 """,
@@ -170,11 +170,11 @@ df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(
 
 
 if len(rider) == 1:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: #008a05' if s == rider[0] else '' for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
 elif len(rider) == 2:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: #008a05' if s == rider[0] else '' 'background-color: #6b0055' if s == rider[1] else '' for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #ff914d' if s == rider[1] else '' for s in x]), use_container_width=True)
 elif len(rider) == 3:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: #008a05' if s == rider[0] else '' 'background-color: #6b0055' if s == rider[1] else '' 'background-color: #273346' if s == rider[2] else ''for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #ff914d' if s == rider[1] else '' 'background-color: #273346' if s == rider[2] else ''for s in x]), use_container_width=True)
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
 
 
@@ -182,11 +182,10 @@ st.markdown(vert_space, unsafe_allow_html=True)
 
 st.subheader("MotoGP Current Results")
 
-st.caption("Double click a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
+st.caption("Doubleclick a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
-st.write(df.sum(numeric_only=True))
 
-sorted_riders = list(rac_pos.columns)
+sorted_riders = list(spr_pos.columns)
 sorted_riders.remove('index')
 sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
 
