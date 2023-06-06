@@ -138,7 +138,7 @@ c1, c2 = st.columns(2)
 with c1:
     track = st.selectbox("Select Track:", set(tracks.values()))
 with c2:
-    rider = st.multiselect("Select Rider:", riders, max_selections=3, default="Francesco_Bagnaia")
+    rider = st.multiselect("Select Up To Three Riders:", riders, max_selections=3, default="Francesco_Bagnaia")
 
 # filtering dataframe based on user selection
 acronyms = [i for i, j in tracks.items() if j == track]
