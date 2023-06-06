@@ -128,9 +128,9 @@ rac_pos = to_position_df(race_dicts)
 
 # ________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
+vert_space = '<div style="padding: 25px 5px;"></div>'
 
 st.title("MotoGP Analytics")
-vert_space = '<div style="padding: 100px 5px;"></div>'
 st.markdown(vert_space, unsafe_allow_html=True)
 st.subheader("MotoGP Previous Results")
 
@@ -159,8 +159,10 @@ df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(
 
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
 st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider else '' for s in x]), use_container_width=True)
+st.markdown(vert_space, unsafe_allow_html=True)
 
 st.subheader("MotoGP Current Results")
+
 st.caption("Double click a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 # plot of sprint positions
 fig1 = px.line(
