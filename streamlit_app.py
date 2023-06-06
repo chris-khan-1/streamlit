@@ -129,18 +129,16 @@ rac_pos = to_position_df(race_dicts)
 
 # START OF PAGE LAYOUT
 
-st.title('MotoGP Analytics \n')
-vert_space = '<div style="padding: 180px 5px;"></div>'
+st.title("MotoGP Analytics")
+vert_space = '<div style="padding: 280px 5px;"></div>'
 
-# select box for rider and track to highlight
-# track = st.selectbox("Select which track you would like information about", set(tracks.values()))
-# rider = st.selectbox("Select the rider you would like to highlight", riders)
+st.subheader("A table showing previous results at a given track, highlighting the selected rider")
 
 c1, c2 = st.columns(2)
 with c1:
-    track = st.selectbox("Select which track you would like information about", set(tracks.values()))
+    track = st.selectbox("Select Track:", set(tracks.values()))
 with c2:
-    rider = st.selectbox("Select the rider you would like to highlight", riders)
+    rider = st.selectbox("Select Rider:", riders)
 
 # filtering dataframe based on user selection
 acronyms = [i for i, j in tracks.items() if j == track]
