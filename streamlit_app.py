@@ -134,7 +134,7 @@ st.markdown(
     """
 <style>
 span[data-baseweb="tag"] {
-  background-color: #121317 !important;
+  background-color: #420018 !important;
 }
 </style>
 """,
@@ -184,8 +184,9 @@ st.subheader("MotoGP Current Results")
 
 st.caption("Double click a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
-sorted_riders = sorted(rac_pos.columns, key= lambda x: sum(int(x)))
+sorted_riders = rac_pos.columns
 sorted_riders.remove('index')
+sorted_riders = sorted(sorted_riders, key= lambda x: sum(int(x)))
 
 # plot of sprint positions
 fig1 = px.line(
