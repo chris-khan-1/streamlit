@@ -185,11 +185,11 @@ fig1 = px.line(
     },
     title="MotoGp Rider Sprint Positions 2023",
     markers=True,
-    legend={'traceorder':'normal'}
 )
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
 fig1.update_layout(height=600)
+fig1.update_xaxes(categoryorder="category ascending")
 
 st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
 
@@ -205,11 +205,11 @@ fig2 = px.line(
         "variable": "Rider"
     },
     title="MotoGp Rider Race Positions 2023",
-    markers=True,
-    legend={'traceorder':'normal'}
+    markers=True
 )
 
 fig2['layout']['yaxis']['autorange'] = "reversed"
 fig2.update_layout(height=600)
+fig2.update_xaxes(categoryorder="category ascending")
 
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
