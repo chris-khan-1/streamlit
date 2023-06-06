@@ -5,8 +5,6 @@ import json
 import plotly.express as px
 
 st.set_page_config(layout="wide")
-st.title('Wow would you look at that...')
-
 
 def to_dict(df, track):
     df2 = df[["Rider", "Pos.", "Points"]]
@@ -120,8 +118,15 @@ riders = [
 df = pd.read_csv("./data/2019-2022_finishes.csv")
 df = df.set_index("position")
 
-track = st.selectbox(" ", set(tracks.values()))
-rider = st.selectbox(" ", riders)
+
+'''START OF PAGE LAYOUT'''
+
+
+st.title('MotoGP Analytics')
+
+# select box for rider and track to highlight
+track = st.selectbox("Select which track you would like information about", set(tracks.values()))
+rider = st.selectbox("Select the rider you would like to highlight", riders)
 
 acronyms = [i for i, j in tracks.items() if j == track]
 
