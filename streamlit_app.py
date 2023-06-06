@@ -161,9 +161,9 @@ df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(
 if len(rider) == 1:
     st.dataframe(df_final.style.apply(lambda x: ['background-color: #008a05' if s == rider[0] else '' for s in x]), use_container_width=True)
 elif len(rider) == 2:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: #008a05' if s == rider[0] else '' 'background-color: #4f003f' if s == rider[1] else '' for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: #008a05' if s == rider[0] else '' 'background-color: #6b0055' if s == rider[1] else '' for s in x]), use_container_width=True)
 elif len(rider) == 3:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: #008a05' if s == rider[0] else '' 'background-color: #4f003f' if s == rider[1] else '' 'background-color: #273346' if s == rider[2] else ''for s in x]), use_container_width=True)
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: #008a05' if s == rider[0] else '' 'background-color: #6b0055' if s == rider[1] else '' 'background-color: #273346' if s == rider[2] else ''for s in x]), use_container_width=True)
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
 
 
@@ -185,11 +185,11 @@ fig1 = px.line(
     },
     title="MotoGp Rider Sprint Positions 2023",
     markers=True,
+    category_orders="category ascending"
 )
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
 fig1.update_layout(height=600)
-fig1.update_xaxes(categoryorder="category ascending")
 
 st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
 
@@ -205,11 +205,11 @@ fig2 = px.line(
         "variable": "Rider"
     },
     title="MotoGp Rider Race Positions 2023",
-    markers=True
+    markers=True,
+    category_orders="category ascending"
 )
 
 fig2['layout']['yaxis']['autorange'] = "reversed"
 fig2.update_layout(height=600)
-fig2.update_xaxes(categoryorder="category ascending")
 
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
