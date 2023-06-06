@@ -162,6 +162,8 @@ st.write(rider)
 if len(rider) == 1:
     st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
 elif len(rider) == 2:
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #273346' if s == rider[1] else '' for s in x]), use_container_width=True)
+elif len(rider) == 3:
     st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: orange' if s == rider[1] else '' for s in x]), use_container_width=True)
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
 
