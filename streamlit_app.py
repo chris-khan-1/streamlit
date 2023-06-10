@@ -112,7 +112,7 @@ riders = [
             'Maverick_Viñales',
             'Enea_Bastianini',
             'Dani_Pedrosa',
-            'Raul Fernandez'
+            'Raul_Fernandez'
             ]
 
 df = pd.read_csv("./data/2019-2022_finishes.csv")
