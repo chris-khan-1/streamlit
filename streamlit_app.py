@@ -313,4 +313,4 @@ fig4 = px.line(
             )
 # fig2['layout']['yaxis']['autorange'] = "reversed"
 fig4.update_layout(height=600)
-st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
+st.plotly_chart(fig4, theme="streamlit", use_container_width=True, height=600)
