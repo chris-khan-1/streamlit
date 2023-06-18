@@ -277,6 +277,26 @@ comb_riders.remove('index')
 
 # plot of spr + rac points cummulative
 fig3 = px.line(
+                combined_points, 
+                x=combined_points["index"], 
+                y=combined_points.columns[1:], 
+                template="plotly_dark",
+                labels={
+                    "x": "Track",
+                    "value": "Points Total",
+                    "variable": "Rider"
+                    },
+                title="MotoGp Total Cumulative Points 2023",
+                markers = True,
+                category_orders={"variable": comb_riders}
+
+            )
+# fig2['layout']['yaxis']['autorange'] = "reversed"
+fig3.update_layout(height=600)
+st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
+
+# plot of spr + rac points cummulative
+fig4 = px.line(
                 combined_points.cumsum(), 
                 x=combined_points["index"], 
                 y=combined_points.columns[1:], 
@@ -292,5 +312,5 @@ fig3 = px.line(
 
             )
 # fig2['layout']['yaxis']['autorange'] = "reversed"
-fig2.update_layout(height=600)
+fig4.update_layout(height=600)
 st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
