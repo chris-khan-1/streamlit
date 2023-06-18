@@ -258,3 +258,6 @@ fig2['layout']['yaxis']['autorange'] = "reversed"
 fig2.update_layout(height=600)
 # fig2.update_yaxes(range=[1, 25])
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
+
+st.write(spr_pos)
+st.write(rac_pos)
