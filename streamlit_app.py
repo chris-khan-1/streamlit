@@ -271,4 +271,4 @@ st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
 
 st.write(rac_points)
 st.write(spr_points)
-st.write(pd.merge(rac_points, spr_points, on=['index']).set_index(['index']))
+st.write(pd.merge(rac_points, spr_points, on=['index']).set_index(['index']).sum())
