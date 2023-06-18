@@ -29,7 +29,7 @@ def color_rider(val):
     color = 'green' if val == rider else ''
     return f'background-color: {color}'
 
-@st.cache_data()#(ttl=604700, show_spinner="Fetching data from API...")
+@st.cache_data(ttl=604800, show_spinner="Fetching data from API...")
 def get_results(race_type):
     dicts = []
     year = 2023
@@ -47,7 +47,7 @@ def get_results(race_type):
                 break
     return dicts
 
-@st.cache_data()#(ttl=604700)
+@st.cache_data(ttl=604800)
 def to_position_df(dicts_):
     b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
 
@@ -118,8 +118,13 @@ riders = [
 df = pd.read_csv("./data/2019-2022_finishes.csv")
 df = df.set_index("position")
 
+# get sprint results
+sprint_dicts = get_results("SPR")
+spr_pos = to_position_df(sprint_dicts)
 
-
+# get race results
+race_dicts = get_results("RAC")
+rac_pos = to_position_df(race_dicts)
 
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
