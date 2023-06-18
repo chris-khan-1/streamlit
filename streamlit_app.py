@@ -127,7 +127,7 @@ spr_pos = to_position_df(sprint_dicts)
 race_dicts = get_results("RAC")
 rac_pos = to_position_df(race_dicts)
 
-# ________________________________________________________________________________________________________________
+# _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
 vert_space = '<div style="padding: 25px 5px;"></div>'
 
