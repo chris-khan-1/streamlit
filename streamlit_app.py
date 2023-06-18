@@ -228,9 +228,6 @@ sorted_riders = list(spr_pos.columns)
 sorted_riders.remove('index')
 sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
 
-# get riders sorted by points
-comb_riders = combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index
-comb_riders.remove('index')
 
 # plot of sprint positions
 fig1 = px.line(
@@ -274,6 +271,9 @@ fig2.update_layout(height=600)
 # fig2.update_yaxes(range=[1, 25])
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
 
+# get riders sorted by points
+comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
+comb_riders.remove('index')
 
 # plot of spr + rac points cummulative
 fig3 = px.line(
