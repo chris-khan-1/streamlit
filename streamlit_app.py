@@ -58,10 +58,10 @@ def to_position_df(dicts_):
 def to_points_df(dicts_):
     b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
 
-    pos = b[b["index"].str.contains("points")].fillna(25)
-    cols1 = pos.columns
-    pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
-    return pos
+    points = b[b["index"].str.contains("points")].fillna(0)
+    cols1 = points.columns
+    points[cols1[1:]] = points[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+    return points
 
 @st.cache_data(show_spinner="Fetching data from API...")
 def refresh_results(race_type):
@@ -268,5 +268,5 @@ fig2.update_layout(height=600)
 # fig2.update_yaxes(range=[1, 25])
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
 
-st.write(race_dicts)
+
 st.write(rac_points)
