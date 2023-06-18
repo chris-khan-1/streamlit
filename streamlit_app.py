@@ -286,7 +286,7 @@ fig3 = px.line(
                     "value": "Points Total",
                     "variable": "Rider"
                     },
-                title="MotoGp Total Cumulative Points 2023",
+                title="MotoGp Total Points 2023",
                 markers = True,
                 category_orders={"variable": comb_riders}
 
