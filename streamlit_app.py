@@ -154,6 +154,8 @@ race_dicts = get_results("RAC")
 rac_pos = to_position_df(race_dicts)
 rac_points = to_points_df(race_dicts)
 
+combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).reset_index()
+
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
 vert_space = '<div style="padding: 25px 5px;"></div>'
@@ -269,6 +271,21 @@ fig2.update_layout(height=600)
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
 
 
-st.write(rac_points)
-st.write(spr_points)
-st.write(pd.merge(rac_points, spr_points, on=['index']).set_index(['index']).sum())
+# plot of spr + rac points cummulative
+fig3 = px.line(
+                combined_points.cumsum(), 
+                x=combined_points["index"], 
+                y=combined_points.columns[1:], 
+                template="plotly_dark",
+                labels={
+                    "x": "Track",
+                    "value": "Points Total",
+                    "variable": "Rider"
+                    },
+                title="MotoGp Total Cumulative Points 2023",
+                markers = True
+
+            )
+# fig2['layout']['yaxis']['autorange'] = "reversed"
+fig2.update_layout(height=600)
+st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
