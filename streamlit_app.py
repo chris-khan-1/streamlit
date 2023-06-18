@@ -47,14 +47,21 @@ def get_results(race_type):
                 break
     return dicts
 
-# @st.cache_data(ttl=604800)
 def to_position_df(dicts_):
     b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
 
-    spr_pos = b[b["index"].str.contains("position")].fillna(25)
-    cols1 = spr_pos.columns
-    spr_pos[cols1[1:]] = spr_pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
-    return spr_pos
+    pos = b[b["index"].str.contains("position")].fillna(25)
+    cols1 = pos.columns
+    pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+    return pos
+
+def to_points_df(dicts_):
+    b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
+
+    pos = b[b["index"].str.contains("points")].fillna(25)
+    cols1 = pos.columns
+    pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+    return pos
 
 @st.cache_data(show_spinner="Fetching data from API...")
 def refresh_results(race_type):
@@ -140,10 +147,12 @@ df = df.set_index("position")
 # get sprint results
 sprint_dicts = get_results("SPR")
 spr_pos = to_position_df(sprint_dicts)
+spr_points = to_points_df(sprint_dicts)
 
 # get race results
 race_dicts = get_results("RAC")
 rac_pos = to_position_df(race_dicts)
+rac_points = to_points_df(race_dicts)
 
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
@@ -259,5 +268,5 @@ fig2.update_layout(height=600)
 # fig2.update_yaxes(range=[1, 25])
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
 
-st.write(sprint_dicts)
-st.write(rac_pos)
+st.write(race_dicts)
+st.write(rac_points)
