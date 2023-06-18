@@ -56,7 +56,7 @@ def to_position_df(dicts_):
     spr_pos[cols1[1:]] = spr_pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
     return spr_pos
 
-
+@st.cache_data(show_spinner="Fetching data from API...")
 def refresh_results(race_type):
     dicts = []
     year = 2023
