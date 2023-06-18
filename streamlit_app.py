@@ -223,10 +223,14 @@ if st.button('Refresh Results'):
     race_dicts = refresh_results("RAC")
     rac_pos = to_position_df(race_dicts)
 
-
+# get riders sorted
 sorted_riders = list(spr_pos.columns)
 sorted_riders.remove('index')
 sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
+
+# get riders sorted by points
+comb_riders = combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index
+comb_riders.remove('index')
 
 # plot of sprint positions
 fig1 = px.line(
@@ -283,7 +287,8 @@ fig3 = px.line(
                     "variable": "Rider"
                     },
                 title="MotoGp Total Cumulative Points 2023",
-                markers = True
+                markers = True,
+                category_orders={"variable": comb_riders}
 
             )
 # fig2['layout']['yaxis']['autorange'] = "reversed"
