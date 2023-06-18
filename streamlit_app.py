@@ -47,7 +47,7 @@ def get_results(race_type):
                 break
     return dicts
 
-@st.cache_data(ttl=604800)
+# @st.cache_data(ttl=604800)
 def to_position_df(dicts_):
     b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
 
@@ -55,6 +55,25 @@ def to_position_df(dicts_):
     cols1 = spr_pos.columns
     spr_pos[cols1[1:]] = spr_pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
     return spr_pos
+
+
+def refresh_results(race_type):
+    dicts = []
+    year = 2023
+    for i in [race_type]:
+        for j in ["POR", "ARG", "AME", "SPA", "FRA", "ITA", "GER", "NED", "KAZ", "GBR", "AUT", "CAT", "RSM", "IND", "JPN", "INA", "AUS", "THA", "MAL", "QAT", "VAL"]:
+            url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
+
+            data = requests.get(url).text
+            try:
+                df = pd.read_html(data)
+                dict_ = to_dict(df[0], j)
+                dicts.append(dict_)
+
+            except ValueError:
+                break
+    return dicts
+
 
 
 tracks = {"NED": "Assen (Netherlands)",
@@ -186,11 +205,11 @@ st.caption("Doubleclick a rider on the right hand side legend to highlight them.
 
 if st.button('Refresh Reslts'):
     # get sprint results
-    sprint_dicts = get_results("SPR")
+    sprint_dicts = refresh_results("SPR")
     spr_pos = to_position_df(sprint_dicts)
 
     # get race results
-    race_dicts = get_results("RAC")
+    race_dicts = refresh_results("RAC")
     rac_pos = to_position_df(race_dicts)
 
 
