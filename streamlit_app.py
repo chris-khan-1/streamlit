@@ -29,7 +29,7 @@ def color_rider(val):
     color = 'green' if val == rider else ''
     return f'background-color: {color}'
 
-@st.cache_data(ttl=604800, show_spinner="Fetching data from API...")
+@st.cache_data(ttl=601800, show_spinner="Fetching data from API...")
 def get_results(race_type):
     dicts = []
     year = 2023
@@ -203,7 +203,7 @@ st.subheader("MotoGP Current Results")
 
 st.caption("Doubleclick a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
-if st.button('Refresh Reslts'):
+if st.button('Refresh Results'):
     # get sprint results
     sprint_dicts = refresh_results("SPR")
     spr_pos = to_position_df(sprint_dicts)
