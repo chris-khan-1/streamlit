@@ -49,7 +49,6 @@ def get_gsheet_data(name):
     return df
 
 
-df = get_gsheet_data("Master")
 # def to_dict(df, track):
 #     df2 = df[["Rider", "Pos.", "Points"]]
 #     df2["Rider"] = df2["Rider"].str.split(
@@ -185,6 +184,7 @@ riders = [
             'Raul_Fernandez'
             ]
 
+all_data = get_gsheet_data("Master")
 # df = pd.read_csv("./data/2019-2022_finishes.csv")
 # df = df.set_index("position")
 
@@ -229,11 +229,11 @@ with c2:
 acronyms = [i for i, j in tracks.items() if j == track]
 
 if len(acronyms) == 1:
-    df_final = df.filter(like=acronyms[0], axis=1)
+    df_final = all_data.filter(like=acronyms[0], axis=1)
 else:
     dfs = []
     for i in acronyms:
-        dfs.append(df.filter(like=i, axis=1))
+        dfs.append(all_data.filter(like=i, axis=1))
     df_final = pd.concat(dfs, axis=1)
 
 
