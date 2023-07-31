@@ -6,27 +6,7 @@ import plotly.express as px
 
 st.set_page_config(layout="wide")
 
-headers = {
-    'accept': '*/*',
-    'content-type': 'application/x-www-form-urlencoded',
-}
 
-params = {
-    'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
-    'eventid': '2147fcdf-a7ea-446c-a99a-21fe98c6949d',
-    'categoryid': 'e8c110ad-64aa-4e8e-8a86-f2f152f6a942',
-    'session': 'RAC',
-}
-
-resp = requests.post('https://racingmike.com/api/v1.0/motogp-full-results', params=params, headers=headers)
-
-dicts = []
-for i in resp.json():
-    dicts.append(i)
-
-json_object = json.dumps(dicts)
-with open("sample.json", "a+") as outfile:
-    outfile.write(json_object)
 # def to_dict(df, track):
 #     df2 = df[["Rider", "Pos.", "Points"]]
 #     df2["Rider"] = df2["Rider"].str.split(
