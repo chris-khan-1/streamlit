@@ -25,7 +25,7 @@ for i in resp.json():
     dicts.append(i)
 
 json_object = json.dumps(dicts)
-with open("sample.json", "w") as outfile:
+with open("sample.json", "a+") as outfile:
     outfile.write(json_object)
 # def to_dict(df, track):
 #     df2 = df[["Rider", "Pos.", "Points"]]
