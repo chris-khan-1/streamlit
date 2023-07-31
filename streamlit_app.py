@@ -16,6 +16,8 @@ scopes = [
 
 key_file = literal_eval(st.secrets["service_account_key"])
 
+st.write(key_file)
+
 credentials = ServiceAccountCredentials.from_json_keyfile_dict(key_file, scopes) #access the json key you downloaded earlier 
 file = gspread.authorize(credentials) # authenticate the JSON key with gspread
 sheet = file.open("motogp_data") #open sheet
