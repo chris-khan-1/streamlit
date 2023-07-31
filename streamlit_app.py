@@ -3,9 +3,29 @@ import requests
 import pandas as pd
 import json
 import plotly.express as px
+from oauth2client.service_account import ServiceAccountCredentials
+import gspread
+from ast import literal_eval
 
 st.set_page_config(layout="wide")
 
+scopes = [
+'https://www.googleapis.com/auth/spreadsheets',
+'https://www.googleapis.com/auth/drive'
+]
+
+key_file = literal_eval(st.secrets["service_account_key"])
+
+credentials = ServiceAccountCredentials.from_json_keyfile_dict(key_file, scopes) #access the json key you downloaded earlier 
+file = gspread.authorize(credentials) # authenticate the JSON key with gspread
+sheet = file.open("motogp_data") #open sheet
+sheet = sheet.worksheet("Master") #replace sheet_name with the name that corresponds to yours, e.g, it can be sheet1
+
+data = sheet.get_all_values()
+headers = data.pop(0)
+
+df = pd.DataFrame(data, columns=headers)
+df = df.set_index("position")
 
 # def to_dict(df, track):
 #     df2 = df[["Rider", "Pos.", "Points"]]
@@ -157,56 +177,56 @@ st.set_page_config(layout="wide")
 
 # combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).reset_index()
 
-# # _________________________________________________________________________________________________________________
-# # START OF PAGE LAYOUT
-# vert_space = '<div style="padding: 25px 5px;"></div>'
+# _________________________________________________________________________________________________________________
+# START OF PAGE LAYOUT
+vert_space = '<div style="padding: 25px 5px;"></div>'
 
-# st.markdown(
-#     """
-# <style>
-# span[data-baseweb="tag"] {
-#   background-color: #273346 !important;
-# }
-# </style>
-# """,
-#     unsafe_allow_html=True,
-# )
+st.markdown(
+    """
+<style>
+span[data-baseweb="tag"] {
+  background-color: #273346 !important;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
 
-# st.title("MotoGP Analytics")
-# st.markdown(vert_space, unsafe_allow_html=True)
-# st.subheader("MotoGP Previous Results")
+st.title("MotoGP Analytics")
+st.markdown(vert_space, unsafe_allow_html=True)
+st.subheader("MotoGP Previous Results")
 
-# c1, c2 = st.columns(2)
-# with c1:
-#     track = st.selectbox("Select Track:", set(tracks.values()))
-# with c2:
-#     rider = st.multiselect("Select Up To Three Riders:", riders, max_selections=3, default="Francesco_Bagnaia")
+c1, c2 = st.columns(2)
+with c1:
+    track = st.selectbox("Select Track:", set(tracks.values()))
+with c2:
+    rider = st.multiselect("Select Up To Three Riders:", riders, max_selections=3, default="Francesco_Bagnaia")
 
-# # filtering dataframe based on user selection
-# acronyms = [i for i, j in tracks.items() if j == track]
+# filtering dataframe based on user selection
+acronyms = [i for i, j in tracks.items() if j == track]
 
-# if len(acronyms) == 1:
-#     df_final = df.filter(like=acronyms[0], axis=1)
-# else:
-#     dfs = []
-#     for i in acronyms:
-#         dfs.append(df.filter(like=i, axis=1))
-#     df_final = pd.concat(dfs, axis=1)
-
-
-# df_final["Pos."] = range(1, len(df_final)+1)
-# df_final.set_index("Pos.", inplace=True)
-# df_final.fillna('', inplace=True)
-# df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
+if len(acronyms) == 1:
+    df_final = df.filter(like=acronyms[0], axis=1)
+else:
+    dfs = []
+    for i in acronyms:
+        dfs.append(df.filter(like=i, axis=1))
+    df_final = pd.concat(dfs, axis=1)
 
 
-# if len(rider) == 1:
-#     st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
-# elif len(rider) == 2:
-#     st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' for s in x]), use_container_width=True)
-# elif len(rider) == 3:
-#     st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' 'background-color: #af62ff' if s == rider[2] else ''for s in x]), use_container_width=True)
-# # st.dataframe(df_final.reset_index().style.applymap(color_rider))
+df_final["Pos."] = range(1, len(df_final)+1)
+df_final.set_index("Pos.", inplace=True)
+df_final.fillna('', inplace=True)
+df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
+
+
+if len(rider) == 1:
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
+elif len(rider) == 2:
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' for s in x]), use_container_width=True)
+elif len(rider) == 3:
+    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' 'background-color: #af62ff' if s == rider[2] else ''for s in x]), use_container_width=True)
+# st.dataframe(df_final.reset_index().style.applymap(color_rider))
 
 
 # st.markdown(vert_space, unsafe_allow_html=True)
