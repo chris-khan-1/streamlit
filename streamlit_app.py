@@ -9,37 +9,47 @@ from ast import literal_eval
 
 st.set_page_config(layout="wide")
 
-scopes = [
-'https://www.googleapis.com/auth/spreadsheets',
-'https://www.googleapis.com/auth/drive'
-]
+def get_gsheet_creds():
+    scopes = [
+    'https://www.googleapis.com/auth/spreadsheets',
+    'https://www.googleapis.com/auth/drive'
+    ]
 
-key_file = {
-  "type" : st.secrets["type"],
-  "project_id" : st.secrets["project_id"],
-  "private_key_id" : st.secrets["private_key_id"],
-  "private_key" : st.secrets["private_key"],
-  "client_email" : st.secrets["client_email"],
-  "client_id" : st.secrets["client_id"],
-  "auth_uri" : st.secrets["auth_uri"],
-  "token_uri" : st.secrets["token_uri"],
-  "auth_provider_x509_cert_url" : st.secrets["auth_provider_x509_cert_url"],
-  "client_x509_cert_url" : st.secrets["client_x509_cert_url"],
-  "universe_domain" : st.secrets["universe_domain"]
-}
+    key_file = {
+    "type" : st.secrets["type"],
+    "project_id" : st.secrets["project_id"],
+    "private_key_id" : st.secrets["private_key_id"],
+    "private_key" : st.secrets["private_key"],
+    "client_email" : st.secrets["client_email"],
+    "client_id" : st.secrets["client_id"],
+    "auth_uri" : st.secrets["auth_uri"],
+    "token_uri" : st.secrets["token_uri"],
+    "auth_provider_x509_cert_url" : st.secrets["auth_provider_x509_cert_url"],
+    "client_x509_cert_url" : st.secrets["client_x509_cert_url"],
+    "universe_domain" : st.secrets["universe_domain"]
+    }
 
 
-credentials = ServiceAccountCredentials.from_json_keyfile_dict(key_file, scopes) #access the json key you downloaded earlier 
-file = gspread.authorize(credentials) # authenticate the JSON key with gspread
-sheet = file.open("motogp_data") #open sheet
-sheet = sheet.worksheet("Master") #replace sheet_name with the name that corresponds to yours, e.g, it can be sheet1
+    credentials = ServiceAccountCredentials.from_json_keyfile_dict(key_file, scopes) #access the json key you downloaded earlier 
 
-data = sheet.get_all_values()
-headers = data.pop(0)
+    return credentials
 
-df = pd.DataFrame(data, columns=headers)
-df = df.set_index("position")
+@st.cache_data()
+def get_gsheet_data(name):
+    credentials = get_gsheet_creds()
+    file = gspread.authorize(credentials) # authenticate the JSON key with gspread
+    sheet = file.open("motogp_data") #open sheet
+    sheet = sheet.worksheet(name) #replace sheet_name with the name that corresponds to yours, e.g, it can be sheet1
 
+    data = sheet.get_all_values()
+    headers = data.pop(0)
+
+    df = pd.DataFrame(data, columns=headers)
+    df = df.set_index("position")
+    return df
+
+
+df = get_gsheet_data("Master")
 # def to_dict(df, track):
 #     df2 = df[["Rider", "Pos.", "Points"]]
 #     df2["Rider"] = df2["Rider"].str.split(
