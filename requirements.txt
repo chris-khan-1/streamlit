@@ -6,3 +6,4 @@ html5lib
 BeautifulSoup4
 oauth2client
 gspread
+PyOpenSSL
