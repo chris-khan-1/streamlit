@@ -206,7 +206,7 @@ all_data = get_gsheet_data("Master").set_index("position")
 # df = df.set_index("position")
 
 df_current = get_gsheet_data("2023")
-
+st.write(df_current)
 # get sprint results
 # sprint_dicts = get_results("SPR")
 spr_pos = filter_position_df(df_current, "SPR")
