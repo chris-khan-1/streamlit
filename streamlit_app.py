@@ -291,7 +291,7 @@ sorted_riders = list(spr_pos.columns)
 sorted_riders.remove('index')
 sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
 
-
+st.write(spr_pos)
 # plot of sprint positions
 fig1 = px.line(
     spr_pos,
