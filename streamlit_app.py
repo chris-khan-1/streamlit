@@ -201,28 +201,31 @@ riders = [
             'Raul_Fernandez'
             ]
 
+# Get all data
 all_data = get_gsheet_data("Master").set_index("position")
 # df = pd.read_csv("./data/2019-2022_finishes.csv")
 # df = df.set_index("position")
 
+# Get current data
 df_current = get_gsheet_data("2023")
-
-st.write(df_current)
-
 
 # get sprint results
 # sprint_dicts = get_results("SPR")
 spr_pos = filter_position_df(df_current, "SPR")
 spr_points = filter_points_df(df_current, "SPR")
 
-st.write(spr_pos)
 
 # get race results
 # race_dicts = get_results("RAC")
 rac_pos = filter_position_df(df_current, "RAC")
 rac_points = filter_points_df(df_current, "RAC")
 
-combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).reset_index()
+tmp1 = rac_points
+tmp2 = spr_points
+tmp1["index"] = tmp1["index"].str.replace("_RAC", "")
+tmp2["index"] = tmp2["index"].str.replace("_SPR", "")
+
+combined_points = (tmp1.set_index('index') + tmp2.set_index('index')).reset_index()
 
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
@@ -276,11 +279,11 @@ elif len(rider) == 3:
 # st.dataframe(df_final.reset_index().style.applymap(color_rider))
 
 
-# st.markdown(vert_space, unsafe_allow_html=True)
+st.markdown(vert_space, unsafe_allow_html=True)
 
-# st.subheader("MotoGP Current Results")
+st.subheader("MotoGP Current Results")
 
-# st.caption("Doubleclick a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
+st.caption("Doubleclick a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
 # if st.button('Refresh Results'):
 #     # get sprint results
