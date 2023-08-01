@@ -45,7 +45,7 @@ def get_gsheet_data(name):
     headers = data.pop(0)
 
     df = pd.DataFrame(data, columns=headers)
-    df = df.set_index("position")
+    # df = df.set_index("position")
     return df
 
 
@@ -89,6 +89,23 @@ def get_gsheet_data(name):
 #             except ValueError:
 #                 break
 #     return dicts
+
+def filter_points_df(df, race_type):
+    b = df.set_index("rider").T.reset_index()
+
+    points = b[b["index"].str.contains(f"{race_type}_points")].fillna(0)
+    cols1 = points.columns
+    points[cols1[1:]] = points[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+
+    return points
+
+def filter_position_df(df, race_type):
+    b = df.set_index("rider").T.reset_index()
+
+    pos = b[b["index"].str.contains(f"{race_type}_position")].fillna(25)
+    cols1 = pos.columns
+    pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+    return pos
 
 # def to_position_df(dicts_):
 #     b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
@@ -184,21 +201,23 @@ riders = [
             'Raul_Fernandez'
             ]
 
-all_data = get_gsheet_data("Master")
+all_data = get_gsheet_data("Master").set_index("position")
 # df = pd.read_csv("./data/2019-2022_finishes.csv")
 # df = df.set_index("position")
 
-# # get sprint results
+df_current = get_gsheet_data("2023")
+
+# get sprint results
 # sprint_dicts = get_results("SPR")
-# spr_pos = to_position_df(sprint_dicts)
-# spr_points = to_points_df(sprint_dicts)
+spr_pos = filter_position_df(df_current)
+spr_points = filter_points_df(df_current)
 
-# # get race results
+# get race results
 # race_dicts = get_results("RAC")
-# rac_pos = to_position_df(race_dicts)
-# rac_points = to_points_df(race_dicts)
+rac_pos = filter_position_df(df_current)
+rac_points = filter_points_df(df_current)
 
-# combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).reset_index()
+combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).reset_index()
 
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
@@ -267,94 +286,94 @@ elif len(rider) == 3:
 #     race_dicts = refresh_results("RAC")
 #     rac_pos = to_position_df(race_dicts)
 
-# # get riders sorted
-# sorted_riders = list(spr_pos.columns)
-# sorted_riders.remove('index')
-# sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
+# get riders sorted
+sorted_riders = list(spr_pos.columns)
+sorted_riders.remove('index')
+sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
 
 
-# # plot of sprint positions
-# fig1 = px.line(
-#     spr_pos,
-#     x=spr_pos["index"],
-#     y=spr_pos.columns[1:],
-#     template="plotly_dark",
-#     labels={
-#         "index": "Track",
-#         "value": "Position",
-#         "variable": "Rider"
-#     },
-#     title="MotoGp Rider Sprint Positions 2023",
-#     markers=True,
-#     category_orders={"variable": sorted_riders}
-# )
+# plot of sprint positions
+fig1 = px.line(
+    spr_pos,
+    x=spr_pos["index"],
+    y=spr_pos.columns[1:],
+    template="plotly_dark",
+    labels={
+        "index": "Track",
+        "value": "Position",
+        "variable": "Rider"
+    },
+    title="MotoGp Rider Sprint Positions 2023",
+    markers=True,
+    category_orders={"variable": sorted_riders}
+)
 
-# fig1['layout']['yaxis']['autorange'] = "reversed"
-# fig1.update_layout(height=600)
-# # fig1.update_yaxes(range=[1, 25])
-# st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
+fig1['layout']['yaxis']['autorange'] = "reversed"
+fig1.update_layout(height=600)
+# fig1.update_yaxes(range=[1, 25])
+st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
 
-# # plot of race positions
-# fig2 = px.line(
-#     rac_pos,
-#     x=rac_pos["index"],
-#     y=rac_pos.columns[1:],
-#     template="plotly_dark",
-#     labels={
-#         "index": "Track",
-#         "value": "Position",
-#         "variable": "Rider"
-#     },
-#     title="MotoGp Rider Race Positions 2023",
-#     markers=True,
-#     category_orders={"variable": sorted_riders}
-# )
+# plot of race positions
+fig2 = px.line(
+    rac_pos,
+    x=rac_pos["index"],
+    y=rac_pos.columns[1:],
+    template="plotly_dark",
+    labels={
+        "index": "Track",
+        "value": "Position",
+        "variable": "Rider"
+    },
+    title="MotoGp Rider Race Positions 2023",
+    markers=True,
+    category_orders={"variable": sorted_riders}
+)
 
+fig2['layout']['yaxis']['autorange'] = "reversed"
+fig2.update_layout(height=600)
+# fig2.update_yaxes(range=[1, 25])
+st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
+
+# get riders sorted by points
+comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
+comb_riders.remove('index')
+
+# plot of spr + rac points cummulative
+fig3 = px.line(
+                combined_points, 
+                x=combined_points["index"], 
+                y=combined_points.columns[1:], 
+                template="plotly_dark",
+                labels={
+                    "x": "Track",
+                    "value": "Points Total",
+                    "variable": "Rider"
+                    },
+                title="MotoGp Total Points 2023",
+                markers = True,
+                category_orders={"variable": comb_riders}
+
+            )
 # fig2['layout']['yaxis']['autorange'] = "reversed"
-# fig2.update_layout(height=600)
-# # fig2.update_yaxes(range=[1, 25])
-# st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
+fig3.update_layout(height=600)
+st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
 
-# # get riders sorted by points
-# comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
-# comb_riders.remove('index')
+# plot of spr + rac points cummulative
+fig4 = px.line(
+                combined_points.cumsum(), 
+                x=combined_points["index"], 
+                y=combined_points.columns[1:], 
+                template="plotly_dark",
+                labels={
+                    "x": "Track",
+                    "value": "Points Total",
+                    "variable": "Rider"
+                    },
+                title="MotoGp Total Cumulative Points 2023",
+                markers = True,
+                category_orders={"variable": comb_riders}
 
-# # plot of spr + rac points cummulative
-# fig3 = px.line(
-#                 combined_points, 
-#                 x=combined_points["index"], 
-#                 y=combined_points.columns[1:], 
-#                 template="plotly_dark",
-#                 labels={
-#                     "x": "Track",
-#                     "value": "Points Total",
-#                     "variable": "Rider"
-#                     },
-#                 title="MotoGp Total Points 2023",
-#                 markers = True,
-#                 category_orders={"variable": comb_riders}
-
-#             )
-# # fig2['layout']['yaxis']['autorange'] = "reversed"
-# fig3.update_layout(height=600)
-# st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
-
-# # plot of spr + rac points cummulative
-# fig4 = px.line(
-#                 combined_points.cumsum(), 
-#                 x=combined_points["index"], 
-#                 y=combined_points.columns[1:], 
-#                 template="plotly_dark",
-#                 labels={
-#                     "x": "Track",
-#                     "value": "Points Total",
-#                     "variable": "Rider"
-#                     },
-#                 title="MotoGp Total Cumulative Points 2023",
-#                 markers = True,
-#                 category_orders={"variable": comb_riders}
-
-#             )
-# # fig2['layout']['yaxis']['autorange'] = "reversed"
-# fig4.update_layout(height=600)
-# st.plotly_chart(fig4, theme="streamlit", use_container_width=True, height=600)
+            )
+# fig2['layout']['yaxis']['autorange'] = "reversed"
+fig4.update_layout(height=600)
+st.plotly_chart(fig4, theme="streamlit", use_container_width=True, height=600)
