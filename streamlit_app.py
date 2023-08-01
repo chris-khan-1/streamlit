@@ -206,11 +206,16 @@ all_data = get_gsheet_data("Master").set_index("position")
 # df = df.set_index("position")
 
 df_current = get_gsheet_data("2023")
+
 st.write(df_current)
+
+
 # get sprint results
 # sprint_dicts = get_results("SPR")
 spr_pos = filter_position_df(df_current, "SPR")
 spr_points = filter_points_df(df_current, "SPR")
+
+st.write(spr_pos)
 
 # get race results
 # race_dicts = get_results("RAC")
@@ -291,7 +296,6 @@ sorted_riders = list(spr_pos.columns)
 sorted_riders.remove('index')
 sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
 
-st.write(spr_pos)
 # plot of sprint positions
 fig1 = px.line(
     spr_pos,
