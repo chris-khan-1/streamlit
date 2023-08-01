@@ -299,7 +299,7 @@ sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
 # plot of sprint positions
 fig1 = px.line(
     spr_pos,
-    x=spr_pos["index"],
+    x=[i[0] for i in spr_pos["index"].str.split('_')],
     y=spr_pos.columns[1:],
     template="plotly_dark",
     labels={
@@ -313,6 +313,7 @@ fig1 = px.line(
 )
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
+fig1['layout']['xaxis']['autorange'] = "reversed"
 fig1.update_layout(height=600)
 # fig1.update_yaxes(range=[1, 25])
 st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
