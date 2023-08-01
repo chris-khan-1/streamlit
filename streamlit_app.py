@@ -369,7 +369,7 @@ st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
 
 # plot of spr + rac points cummulative
 fig3 = px.line(
-                combined_points.cumsum(), 
+                combined_points.iloc[::-1].cumsum(), 
                 x=[i[0] for i in combined_points["index"].str.split('_')], 
                 y=combined_points.columns[1:], 
                 template="plotly_dark",
