@@ -349,7 +349,7 @@ comb_riders.remove('index')
 # plot of spr + rac points cummulative
 fig3 = px.line(
                 combined_points, 
-                x=combined_points["index"], 
+                x=[i[0] for i in combined_points["index"].str.split('_')], 
                 y=combined_points.columns[1:], 
                 template="plotly_dark",
                 labels={
@@ -369,7 +369,7 @@ st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
 # plot of spr + rac points cummulative
 fig4 = px.line(
                 combined_points.cumsum(), 
-                x=combined_points["index"], 
+                x=[i[0] for i in combined_points["index"].str.split('_')], 
                 y=combined_points.columns[1:], 
                 template="plotly_dark",
                 labels={
