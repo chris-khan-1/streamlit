@@ -303,7 +303,7 @@ fig1 = px.line(
     y=spr_pos.columns[1:],
     template="plotly_dark",
     labels={
-        "index": "Track",
+        "x": "Track",
         "value": "Position",
         "variable": "Rider"
     },
@@ -325,7 +325,7 @@ fig2 = px.line(
     y=rac_pos.columns[1:],
     template="plotly_dark",
     labels={
-        "index": "Track",
+        "x": "Track",
         "value": "Position",
         "variable": "Rider"
     },
