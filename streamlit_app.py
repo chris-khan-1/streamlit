@@ -209,13 +209,13 @@ df_current = get_gsheet_data("2023")
 
 # get sprint results
 # sprint_dicts = get_results("SPR")
-spr_pos = filter_position_df(df_current)
-spr_points = filter_points_df(df_current)
+spr_pos = filter_position_df(df_current, "SPR")
+spr_points = filter_points_df(df_current, "SPR")
 
 # get race results
 # race_dicts = get_results("RAC")
-rac_pos = filter_position_df(df_current)
-rac_points = filter_points_df(df_current)
+rac_pos = filter_position_df(df_current, "RAC")
+rac_points = filter_points_df(df_current, "RAC")
 
 combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).reset_index()
 
