@@ -227,6 +227,16 @@ tmp2["index"] = tmp2["index"].str.replace("_SPR", "")
 
 combined_points = (tmp1.set_index('index') + tmp2.set_index('index')).reset_index()
 
+# get riders sorted by points
+comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
+comb_riders.remove('index')
+
+# get riders sorted
+sorted_riders = list(spr_pos.columns)
+sorted_riders.remove('index')
+sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
+
+
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
 vert_space = '<div style="padding: 25px 5px;"></div>'
@@ -294,10 +304,26 @@ st.caption("Doubleclick a rider on the right hand side legend to highlight them.
 #     race_dicts = refresh_results("RAC")
 #     rac_pos = to_position_df(race_dicts)
 
-# get riders sorted
-sorted_riders = list(spr_pos.columns)
-sorted_riders.remove('index')
-sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
+
+# plot of spr + rac points cummulative
+fig0 = px.line(
+                combined_points, 
+                x=[i[0] for i in combined_points["index"].str.split('_')], 
+                y=combined_points.columns[1:], 
+                template="plotly_dark",
+                labels={
+                    "x": "Track",
+                    "value": "Points Total",
+                    "variable": "Rider"
+                    },
+                title="MotoGp Total Points 2023",
+                markers = True,
+                category_orders={"variable": comb_riders}
+
+            )
+# fig2['layout']['yaxis']['autorange'] = "reversed"
+fig0.update_layout(height=600)
+st.plotly_chart(fig0, theme="streamlit", use_container_width=True, height=600)
 
 # plot of sprint positions
 fig1 = px.line(
@@ -342,32 +368,9 @@ fig2.update_layout(height=600)
 # fig2.update_yaxes(range=[1, 25])
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
 
-# get riders sorted by points
-comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
-comb_riders.remove('index')
 
 # plot of spr + rac points cummulative
 fig3 = px.line(
-                combined_points, 
-                x=[i[0] for i in combined_points["index"].str.split('_')], 
-                y=combined_points.columns[1:], 
-                template="plotly_dark",
-                labels={
-                    "x": "Track",
-                    "value": "Points Total",
-                    "variable": "Rider"
-                    },
-                title="MotoGp Total Points 2023",
-                markers = True,
-                category_orders={"variable": comb_riders}
-
-            )
-# fig2['layout']['yaxis']['autorange'] = "reversed"
-fig3.update_layout(height=600)
-st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
-
-# plot of spr + rac points cummulative
-fig4 = px.line(
                 combined_points.cumsum(), 
                 x=[i[0] for i in combined_points["index"].str.split('_')], 
                 y=combined_points.columns[1:], 
@@ -382,6 +385,7 @@ fig4 = px.line(
                 category_orders={"variable": comb_riders}
 
             )
-# fig2['layout']['yaxis']['autorange'] = "reversed"
-fig4.update_layout(height=600)
-st.plotly_chart(fig4, theme="streamlit", use_container_width=True, height=600)
+
+fig3['layout']['xaxis']['autorange'] = "reversed"
+fig3.update_layout(height=600)
+st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
