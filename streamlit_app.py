@@ -102,7 +102,7 @@ def filter_points_df(df, race_type):
 def filter_position_df(df, race_type):
     b = df.set_index("rider").T.reset_index()
 
-    pos = b[b["index"].str.contains(f"{race_type}_position")].fillna(25)
+    pos = b[b["index"].str.contains(f"{race_type}_pos")].fillna(25)
     cols1 = pos.columns
     pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
     return pos
