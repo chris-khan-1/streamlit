@@ -49,23 +49,6 @@ def get_gsheet_data(name):
     return df
 
 
-# def to_dict(df, track):
-#     df2 = df[["Rider", "Pos.", "Points"]]
-#     df2["Rider"] = df2["Rider"].str.split(
-#         ' ').str[1].str.split('(?<=.)(?=[A-Z])').str.join('_')
-#     # df2 = df2.fillna("na")
-#     df2.columns = ["rider", f"{track}-position", f"{track}-points"]
-#     df2 = df2.set_index("rider")
-#     x = df2.to_dict()
-#     x.values()
-#     for k, j in x.items():
-#         try:
-#             del j["riders"]
-#             del j["who"]
-#         except:
-#             continue
-
-#     return x
 
 
 # def color_rider(val):
@@ -106,22 +89,6 @@ def filter_position_df(df, race_type):
     cols1 = pos.columns
     pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
     return pos
-
-# def to_position_df(dicts_):
-#     b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
-
-#     pos = b[b["index"].str.contains("position")].fillna(25)
-#     cols1 = pos.columns
-#     pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
-#     return pos
-
-# def to_points_df(dicts_):
-#     b = pd.concat([pd.DataFrame(x).T for x in dicts_]).reset_index()
-
-#     points = b[b["index"].str.contains("points")].fillna(0)
-#     cols1 = points.columns
-#     points[cols1[1:]] = points[cols1[1:]].apply(pd.to_numeric, errors='coerce')
-#     return points
 
 # @st.cache_data(show_spinner="Fetching data from API...")
 # def refresh_results(race_type):
@@ -199,7 +166,7 @@ riders = [
             'Enea_Bastianini',
             'Dani_Pedrosa',
             'Raul_Fernandez'
-            ]
+        ]
 
 # Get all data
 all_data = get_gsheet_data("Master").set_index("position")
@@ -319,7 +286,7 @@ fig0 = px.line(
                 category_orders={"variable": comb_riders}
 
             )
-fig0['layout']['xaxis']['autorange'] = "reversed"
+
 fig0.update_layout(height=600)
 st.plotly_chart(fig0, theme="streamlit", use_container_width=True, height=600)
 
