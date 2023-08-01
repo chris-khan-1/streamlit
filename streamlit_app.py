@@ -319,7 +319,7 @@ fig0 = px.line(
                 category_orders={"variable": comb_riders}
 
             )
-# fig2['layout']['yaxis']['autorange'] = "reversed"
+fig0['layout']['xaxis']['autorange'] = "reversed"
 fig0.update_layout(height=600)
 st.plotly_chart(fig0, theme="streamlit", use_container_width=True, height=600)
 
