@@ -321,7 +321,7 @@ st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
 # plot of race positions
 fig2 = px.line(
     rac_pos,
-    x=rac_pos["index"],
+    x=[i[0] for i in rac_pos["index"].str.split('_')],
     y=rac_pos.columns[1:],
     template="plotly_dark",
     labels={
