@@ -34,7 +34,7 @@ def get_gsheet_creds():
 
     return credentials
 
-@st.cache_data()
+@st.cache_data(ttl=601800, show_spinner="Fetching data from API...")
 def get_gsheet_data(name):
     credentials = get_gsheet_creds()
     file = gspread.authorize(credentials) # authenticate the JSON key with gspread
