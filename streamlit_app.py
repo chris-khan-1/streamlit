@@ -288,6 +288,7 @@ fig0 = px.line(
             )
 
 fig0.update_layout(height=600)
+fig0['layout']['xaxis']['autorange'] = "reversed"
 st.plotly_chart(fig0, theme="streamlit", use_container_width=True, height=600)
 
 # plot of sprint positions
@@ -307,7 +308,7 @@ fig1 = px.line(
 )
 
 fig1['layout']['yaxis']['autorange'] = "reversed"
-fig1['layout']['xaxis']['autorange'] = "reversed"
+# fig1['layout']['xaxis']['autorange'] = "reversed"
 fig1.update_layout(height=600)
 # fig1.update_yaxes(range=[1, 25])
 st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
@@ -329,7 +330,7 @@ fig2 = px.line(
 )
 
 fig2['layout']['yaxis']['autorange'] = "reversed"
-fig2['layout']['xaxis']['autorange'] = "reversed"
+# fig2['layout']['xaxis']['autorange'] = "reversed"
 fig2.update_layout(height=600)
 # fig2.update_yaxes(range=[1, 25])
 st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
@@ -353,4 +354,5 @@ fig3 = px.line(
             )
 
 fig3.update_layout(height=600)
+fig3['layout']['xaxis']['autorange'] = "reversed"
 st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
