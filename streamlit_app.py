@@ -34,7 +34,7 @@ def get_gsheet_creds():
 
     return credentials
 
-@st.cache_data(ttl=601800, show_spinner="Fetching data from API...")
+# @st.cache_data(ttl=601800, show_spinner="Fetching data from API...")
 def get_gsheet_data(name):
     credentials = get_gsheet_creds()
     file = gspread.authorize(credentials) # authenticate the JSON key with gspread
@@ -288,7 +288,6 @@ fig0 = px.line(
             )
 
 fig0.update_layout(height=600)
-fig0['layout']['xaxis']['autorange'] = "reversed"
 st.plotly_chart(fig0, theme="streamlit", use_container_width=True, height=600)
 
 # plot of sprint positions
@@ -354,5 +353,4 @@ fig3 = px.line(
             )
 
 fig3.update_layout(height=600)
-fig3['layout']['xaxis']['autorange'] = "reversed"
 st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
