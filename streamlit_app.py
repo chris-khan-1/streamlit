@@ -34,7 +34,7 @@ def get_gsheet_creds():
 
     return credentials
 
-# @st.cache_data(ttl=601800, show_spinner="Fetching data from API...")
+@st.cache_data(show_spinner="Fetching data from API...") #ttl=601800, 
 def get_gsheet_data(name):
     credentials = get_gsheet_creds()
     file = gspread.authorize(credentials) # authenticate the JSON key with gspread
@@ -85,11 +85,17 @@ def filter_points_df(df, race_type):
 def filter_position_df(df, race_type):
     b = df.set_index("rider").T.reset_index()
 
-    pos = b[b["index"].str.contains(f"{race_type}_pos")].fillna(25)
+    pos = b[b["index"].str.contains(f"{race_type}_pos")] #.fillna(25)
     cols1 = pos.columns
     pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
     return pos
 
+def pts_fn(x, points_map):
+    if x!= "" and int(x) in points_map.keys():
+        return points_map[int(x)]
+    else:
+        return 0
+    
 # @st.cache_data(show_spinner="Fetching data from API...")
 # def refresh_results(race_type):
 #     dicts = []
@@ -137,7 +143,8 @@ tracks = {"NED": "Assen (Netherlands)",
           "THA": "Buriram (Thailand)",
           "AUT": "Red Bull Ring (Austria)",
           "QAT": "Losail (Qatar)",
-          "POR": "Portimao (Portugal)"}
+          "POR": "Portimao (Portugal)",
+          "IND": "Buddh (India)"}
 
 riders = [
             'Francesco_Bagnaia',
@@ -175,12 +182,23 @@ all_data = get_gsheet_data("Master").set_index("position")
 
 # Get current data
 df_current = get_gsheet_data("2023")
+df_current = df_current.replace("0", "25")
+
+race_points_map = dict(pd.read_csv("./data/motogp_race_points_mapping.csv").values)
+sprint_points_map = dict(pd.read_csv("./data/motogp_sprint_points_mapping.csv").values)
+
+for i in df_current.columns[1:]:
+    # print("_".join(i.split("_")[:2]) + "_points")
+    # df["_".join(i.split("_")[:2]) + "_points"] = df[i].map(lambda x: pts_fn(x))
+    if "RAC" in i:
+        df_current["_".join(i.split("_")[:2]) + "_points"] = df_current[i].map(lambda x: pts_fn(x, race_points_map))
+    elif "SPR" in i:
+        df_current["_".join(i.split("_")[:2]) + "_points"] = df_current[i].map(lambda x: pts_fn(x, sprint_points_map))
 
 # get sprint results
 # sprint_dicts = get_results("SPR")
 spr_pos = filter_position_df(df_current, "SPR")
 spr_points = filter_points_df(df_current, "SPR")
-
 
 # get race results
 # race_dicts = get_results("RAC")
