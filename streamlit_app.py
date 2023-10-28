@@ -198,7 +198,7 @@ def get_championship_table(combined_points):
     c = c.loc[c["rider"] != "index"]
     c.columns = ["Rider", "Points"]
     c = c.sort_values(by="Points", ascending=False)
-    c["Difference"] = [max(c.Points) - i for i in c.Points].replace(0, "-")
+    c["Difference"] = [max(c.Points) - i for i in c.Points if c.points != max(c.Points) else "-"]
     return c
 
 tracks = {"NED": "Assen (Netherlands)",
