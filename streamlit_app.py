@@ -193,6 +193,11 @@ def get_and_transform_current_results():
 # def refresh_current_results():
 #     return get_and_transform_current_results()
 
+def get_championship_table(combined_points):
+    del combined_points["index"]
+    championship = pd.DataFrame(combined_points.sum()).reset_index()
+    championship.columns = ["rider", "points"]
+    return championship.sort_values(by="0", ascending=False)
 
 tracks = {"NED": "Assen (Netherlands)",
           "ITA": "Mugello (Italy)",
@@ -259,6 +264,7 @@ all_data = get_all_data()
 
 spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results()
 
+champ_table = get_championship_table(combined_points)
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
 vert_space = '<div style="padding: 25px 5px;"></div>'
@@ -382,7 +388,5 @@ fig3 = px.line(
 fig3.update_layout(height=600)
 st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
 
-championship = pd.DataFrame(combined_points.sum()).reset_index()
-# championship.columns = ["rider", "points"]
 
-st.dataframe(championship) #.sort_values(by="0", ascending=False))
+st.dataframe(champ_table)
