@@ -88,6 +88,7 @@ def filter_points_df(df, race_type):
 
     return points
 
+
 def filter_position_df(df, race_type):
     b = df.set_index("rider").T.reset_index()
 
@@ -96,13 +97,15 @@ def filter_position_df(df, race_type):
     pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
     return pos
 
+
 def pts_fn(x, points_map):
     if x!= "" and int(x) in points_map.keys():
         return points_map[int(x)]
     else:
         return 0
     
-def display_selection(all_data, rider):
+
+def display_selection(all_data, rider, track):
 
     # filtering dataframe based on user selection
     acronyms = [i for i, j in tracks.items() if j == track]
@@ -129,6 +132,7 @@ def display_selection(all_data, rider):
         return st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' 'background-color: #af62ff' if s == rider[2] else ''for s in x]), use_container_width=True)
     else:
         return st.dataframe(df_final, use_container_width=True)
+
 
 def get_and_transform_current_results():
     df_current = get_gsheet_data(year)
@@ -270,7 +274,7 @@ with c2:
     rider = st.multiselect("Select Up To Three Riders:", riders, max_selections=3, default="Francesco_Bagnaia")
 
 
-display_selection(all_data, rider)
+display_selection(all_data, rider, track)
 
 
 # st.markdown(vert_space, unsafe_allow_html=True)
