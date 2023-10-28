@@ -54,7 +54,17 @@ def get_gsheet_data(name):
 
 @st.cache_data(show_spinner="Fetching data from API...") #ttl=601800, 
 def get_all_data():
-    return get_gsheet_data("Master").set_index("position")
+    credentials = get_gsheet_creds()
+    file = gspread.authorize(credentials) # authenticate the JSON key with gspread
+    sheet = file.open("motogp_data") #open sheet
+    sheet = sheet.worksheet("Master") #replace sheet_name with the name that corresponds to yours, e.g, it can be sheet1
+
+    data = sheet.get_all_values()
+    headers = data.pop(0)
+
+    df = pd.DataFrame(data, columns=headers)
+    df = df.set_index("position")
+    return df
 
 
 # def color_rider(val):
