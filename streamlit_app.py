@@ -97,7 +97,22 @@ def pts_fn(x, points_map):
         return 0
     
 @st.cache_data(show_spinner="Fetching data from API...")
-def display_selection(df_final, rider):
+def display_selection(all_data, rider, acronyms):
+
+    if len(acronyms) == 1:
+        df_final = all_data.filter(like=acronyms[0], axis=1)
+    else:
+        dfs = []
+        for i in acronyms:
+            dfs.append(all_data.filter(like=i, axis=1))
+        df_final = pd.concat(dfs, axis=1)
+
+
+    df_final["Pos."] = range(1, len(df_final)+1)
+    df_final.set_index("Pos.", inplace=True)
+    df_final.fillna('', inplace=True)
+    df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
+
     if len(rider) == 1:
         return st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
     elif len(rider) == 2:
@@ -257,21 +272,9 @@ with c2:
 # filtering dataframe based on user selection
 acronyms = [i for i, j in tracks.items() if j == track]
 
-if len(acronyms) == 1:
-    df_final = all_data.filter(like=acronyms[0], axis=1)
-else:
-    dfs = []
-    for i in acronyms:
-        dfs.append(all_data.filter(like=i, axis=1))
-    df_final = pd.concat(dfs, axis=1)
 
 
-df_final["Pos."] = range(1, len(df_final)+1)
-df_final.set_index("Pos.", inplace=True)
-df_final.fillna('', inplace=True)
-df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
-
-display_selection(df_final, rider)
+display_selection(all_data, rider, acronyms)
 
 
 st.markdown(vert_space, unsafe_allow_html=True)
