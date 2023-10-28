@@ -195,8 +195,9 @@ def get_and_transform_current_results():
 
 def get_championship_table(combined_points):
     championship = pd.DataFrame(combined_points.sum()).reset_index()
-    championship.columns = ["rider", "points"]
-    return championship.sort_values(by="points", ascending=False)
+    return championship
+    # championship.columns = ["rider", "points"]
+    # return championship.sort_values(by="points", ascending=False)
 
 tracks = {"NED": "Assen (Netherlands)",
           "ITA": "Mugello (Italy)",
