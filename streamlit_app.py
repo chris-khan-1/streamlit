@@ -96,8 +96,11 @@ def pts_fn(x, points_map):
     else:
         return 0
     
-@st.cache_data(show_spinner="Fetching data from API...")
-def display_selection(all_data, rider, acronyms):
+# @st.cache_data(show_spinner="Fetching data from API...")
+def display_selection(all_data, rider):
+
+    # filtering dataframe based on user selection
+    acronyms = [i for i, j in tracks.items() if j == track]
 
     if len(acronyms) == 1:
         df_final = all_data.filter(like=acronyms[0], axis=1)
@@ -119,6 +122,9 @@ def display_selection(all_data, rider, acronyms):
         return st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' for s in x]), use_container_width=True)
     elif len(rider) == 3:
         return st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' 'background-color: #af62ff' if s == rider[2] else ''for s in x]), use_container_width=True)
+    else:
+        return st.dataframe(df_final)
+
     
 # @st.cache_data(show_spinner="Fetching data from API...")
 # def refresh_results(race_type):
@@ -269,12 +275,8 @@ with c1:
 with c2:
     rider = st.multiselect("Select Up To Three Riders:", riders, max_selections=3, default="Francesco_Bagnaia")
 
-# filtering dataframe based on user selection
-acronyms = [i for i, j in tracks.items() if j == track]
 
-
-
-display_selection(all_data, rider, acronyms)
+display_selection(all_data, rider)
 
 
 st.markdown(vert_space, unsafe_allow_html=True)
