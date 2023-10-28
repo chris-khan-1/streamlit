@@ -96,6 +96,15 @@ def pts_fn(x, points_map):
     else:
         return 0
     
+@st.cache_data(show_spinner="Fetching data from API...")
+def display_selection(df_final, rider):
+    if len(rider) == 1:
+        return st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
+    elif len(rider) == 2:
+        return st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' for s in x]), use_container_width=True)
+    elif len(rider) == 3:
+        return st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' 'background-color: #af62ff' if s == rider[2] else ''for s in x]), use_container_width=True)
+    
 # @st.cache_data(show_spinner="Fetching data from API...")
 # def refresh_results(race_type):
 #     dicts = []
@@ -262,14 +271,7 @@ df_final.set_index("Pos.", inplace=True)
 df_final.fillna('', inplace=True)
 df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
 
-
-if len(rider) == 1:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
-elif len(rider) == 2:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' for s in x]), use_container_width=True)
-elif len(rider) == 3:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' 'background-color: #af62ff' if s == rider[2] else ''for s in x]), use_container_width=True)
-# st.dataframe(df_final.reset_index().style.applymap(color_rider))
+display_selection(df_final, rider)
 
 
 st.markdown(vert_space, unsafe_allow_html=True)
