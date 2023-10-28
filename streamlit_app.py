@@ -284,31 +284,31 @@ with c1:
 with c2:
     rider = st.multiselect("Select Up To Three Riders:", riders, max_selections=3, default="Francesco_Bagnaia")
 
-acronyms = [i for i, j in tracks.items() if j == track]
+# acronyms = [i for i, j in tracks.items() if j == track]
 
-if len(acronyms) == 1:
-    df_final = all_data.filter(like=acronyms[0], axis=1)
-else:
-    dfs = []
-    for i in acronyms:
-        dfs.append(all_data.filter(like=i, axis=1))
-    df_final = pd.concat(dfs, axis=1)
+# if len(acronyms) == 1:
+#     df_final = all_data.filter(like=acronyms[0], axis=1)
+# else:
+#     dfs = []
+#     for i in acronyms:
+#         dfs.append(all_data.filter(like=i, axis=1))
+#     df_final = pd.concat(dfs, axis=1)
 
 
-df_final["Pos."] = range(1, len(df_final)+1)
-df_final.set_index("Pos.", inplace=True)
-df_final.fillna('', inplace=True)
-df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
+# df_final["Pos."] = range(1, len(df_final)+1)
+# df_final.set_index("Pos.", inplace=True)
+# df_final.fillna('', inplace=True)
+# df_final = df_final.reindex(sorted(list(df_final.columns), key= lambda x: float(x.split('-')[-1])), axis=1)
 
-if len(rider) == 1:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
-elif len(rider) == 2:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' for s in x]), use_container_width=True)
-elif len(rider) == 3:
-    st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' 'background-color: #af62ff' if s == rider[2] else ''for s in x]), use_container_width=True)
-else:
-    st.dataframe(df_final, use_container_width=True)
-# display_selection(all_data, rider, track)
+# if len(rider) == 1:
+#     st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' for s in x]), use_container_width=True)
+# elif len(rider) == 2:
+#     st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' for s in x]), use_container_width=True)
+# elif len(rider) == 3:
+#     st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' 'background-color: #af62ff' if s == rider[2] else ''for s in x]), use_container_width=True)
+# else:
+#     st.dataframe(df_final, use_container_width=True)
+display_selection(all_data, rider, track)
 
 
 # st.markdown(vert_space, unsafe_allow_html=True)
