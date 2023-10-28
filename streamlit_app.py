@@ -171,12 +171,12 @@ def get_and_transform_current_results():
 
     return spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders
 
-@st.cache_data(show_spinner="Fetching data from API...")
-def cache_current_results():
-    return get_and_transform_current_results()
+# @st.cache_data(show_spinner="Fetching data from API...")
+# def cache_current_results():
+#     return get_and_transform_current_results()
 
-def refresh_current_results():
-    return get_and_transform_current_results()
+# def refresh_current_results():
+#     return get_and_transform_current_results()
 
 
 tracks = {"NED": "Assen (Netherlands)",
@@ -242,7 +242,7 @@ year = get_year()
 # Get all data
 all_data = get_all_data()
 
-spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = cache_current_results()
+spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results()
 
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
@@ -279,8 +279,8 @@ st.subheader("MotoGP Current Results")
 
 st.caption("Doubleclick a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
-if st.button('Refresh Results'):
-    spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = refresh_current_results()
+# if st.button('Refresh Results'):
+#     spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = refresh_current_results()
 
 # plot of spr + rac points cummulative
 fig0 = px.line(
