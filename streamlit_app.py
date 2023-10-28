@@ -131,25 +131,47 @@ def display_selection(all_data, rider):
     else:
         return st.dataframe(df_final, use_container_width=True)
 
-    
-# @st.cache_data(show_spinner="Fetching data from API...")
-# def refresh_results(race_type):
-#     dicts = []
-#     yeafr = {year}
-#     for i in [race_type]:
-#         for j in ["POR", "ARG", "AME", "SPA", "FRA", "ITA", "GER", "NED", "KAZ", "GBR", "AUT", "CAT", "RSM", "IND", "JPN", "INA", "AUS", "THA", "MAL", "QAT", "VAL"]:
-#             url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
+@st.cache_data(show_spinner="Fetching data from API...")
+def get_and_transform_current_results():
+    df_current = get_gsheet_data(year)
+    df_current = df_current.replace("0", "25")
 
-#             data = requests.get(url).text
-#             try:
-#                 df = pd.read_html(data)
-#                 dict_ = to_dict(df[0], j)
-#                 dicts.append(dict_)
+    race_points_map = dict(pd.read_csv("./data/motogp_race_points_mapping.csv").values)
+    sprint_points_map = dict(pd.read_csv("./data/motogp_sprint_points_mapping.csv").values)
 
-#             except ValueError:
-#                 break
-#     return dicts
+    for i in df_current.columns[1:]:
+        # print("_".join(i.split("_")[:2]) + "_points")
+        # df["_".join(i.split("_")[:2]) + "_points"] = df[i].map(lambda x: pts_fn(x))
+        if "RAC" in i:
+            df_current["_".join(i.split("_")[:2]) + "_points"] = df_current[i].map(lambda x: pts_fn(x, race_points_map))
+        elif "SPR" in i:
+            df_current["_".join(i.split("_")[:2]) + "_points"] = df_current[i].map(lambda x: pts_fn(x, sprint_points_map))
 
+    # get sprint results
+    # sprint_dicts = get_results("SPR")
+    spr_pos = filter_position_df(df_current, "SPR")
+    spr_points = filter_points_df(df_current, "SPR")
+
+    # get race results
+    # race_dicts = get_results("RAC")
+    rac_pos = filter_position_df(df_current, "RAC")
+    rac_points = filter_points_df(df_current, "RAC")
+
+    rac_points["index"] = rac_points["index"].str.replace("_RAC", "")
+    spr_points["index"] = spr_points["index"].str.replace("_SPR", "")
+
+    combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).fillna(0).reset_index()
+
+    # get riders sorted by points
+    comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
+    comb_riders.remove('index')
+
+    # get riders sorted
+    sorted_riders = list(spr_pos.columns)
+    sorted_riders.remove('index')
+    sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
+
+    return spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders
 
 
 tracks = {"NED": "Assen (Netherlands)",
@@ -217,45 +239,7 @@ all_data = get_gsheet_data("Master").set_index("position")
 # df = pd.read_csv("./data/2019-2022_finishes.csv")
 # df = df.set_index("position")
 
-# Get current data
-df_current = get_gsheet_data(year)
-df_current = df_current.replace("0", "25")
-
-race_points_map = dict(pd.read_csv("./data/motogp_race_points_mapping.csv").values)
-sprint_points_map = dict(pd.read_csv("./data/motogp_sprint_points_mapping.csv").values)
-
-for i in df_current.columns[1:]:
-    # print("_".join(i.split("_")[:2]) + "_points")
-    # df["_".join(i.split("_")[:2]) + "_points"] = df[i].map(lambda x: pts_fn(x))
-    if "RAC" in i:
-        df_current["_".join(i.split("_")[:2]) + "_points"] = df_current[i].map(lambda x: pts_fn(x, race_points_map))
-    elif "SPR" in i:
-        df_current["_".join(i.split("_")[:2]) + "_points"] = df_current[i].map(lambda x: pts_fn(x, sprint_points_map))
-
-# get sprint results
-# sprint_dicts = get_results("SPR")
-spr_pos = filter_position_df(df_current, "SPR")
-spr_points = filter_points_df(df_current, "SPR")
-
-# get race results
-# race_dicts = get_results("RAC")
-rac_pos = filter_position_df(df_current, "RAC")
-rac_points = filter_points_df(df_current, "RAC")
-
-rac_points["index"] = rac_points["index"].str.replace("_RAC", "")
-spr_points["index"] = spr_points["index"].str.replace("_SPR", "")
-
-combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).fillna(0).reset_index()
-
-# get riders sorted by points
-comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
-comb_riders.remove('index')
-
-# get riders sorted
-sorted_riders = list(spr_pos.columns)
-sorted_riders.remove('index')
-sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
-
+spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results()
 
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
@@ -293,8 +277,7 @@ st.subheader("MotoGP Current Results")
 st.caption("Doubleclick a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
 if st.button('Refresh Results'):
-    df_current = get_gsheet_data(year)
-    df_current = df_current.replace("0", "25")
+    spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results()
 
 # plot of spr + rac points cummulative
 fig0 = px.line(
