@@ -196,8 +196,10 @@ def get_and_transform_current_results():
 def get_championship_table(combined_points):
     c = pd.DataFrame(combined_points.sum()).reset_index()
     c = c.loc[c["rider"] != "index"]
-    c.columns = ["rider", "points"]
-    return c.sort_values(by="points", ascending=False)
+    c.columns = ["Rider", "Points"]
+    c = c.sort_values(by="Points", ascending=False)
+    c["Difference"] = [max(c.Points) - c.Points]
+    return c
 
 tracks = {"NED": "Assen (Netherlands)",
           "ITA": "Mugello (Italy)",
