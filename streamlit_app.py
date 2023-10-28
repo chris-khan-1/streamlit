@@ -102,7 +102,7 @@ def pts_fn(x, points_map):
     else:
         return 0
     
-# @st.cache_data(show_spinner="Fetching data from API...")
+@st.cache_data(show_spinner="Fetching data from API...")
 def display_selection(all_data, rider):
 
     # filtering dataframe based on user selection
