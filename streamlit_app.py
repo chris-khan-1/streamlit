@@ -273,96 +273,96 @@ with c2:
 display_selection(all_data, rider)
 
 
-st.markdown(vert_space, unsafe_allow_html=True)
+# st.markdown(vert_space, unsafe_allow_html=True)
 
-st.subheader("MotoGP Current Results")
+# st.subheader("MotoGP Current Results")
 
-st.caption("Doubleclick a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
+# st.caption("Doubleclick a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
-# if st.button('Refresh Results'):
-#     spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = refresh_current_results()
+# # if st.button('Refresh Results'):
+# #     spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = refresh_current_results()
 
-# plot of spr + rac points cummulative
-fig0 = px.line(
-                combined_points, 
-                x=[i[0] for i in combined_points["index"].str.split('_')], 
-                y=combined_points.columns[1:], 
-                template="plotly_dark",
-                labels={
-                    "x": "Track",
-                    "value": "Points Total",
-                    "variable": "Rider"
-                    },
-                title=f"MotoGp Total Points {year}",
-                markers = True,
-                category_orders={"variable": comb_riders}
+# # plot of spr + rac points cummulative
+# fig0 = px.line(
+#                 combined_points, 
+#                 x=[i[0] for i in combined_points["index"].str.split('_')], 
+#                 y=combined_points.columns[1:], 
+#                 template="plotly_dark",
+#                 labels={
+#                     "x": "Track",
+#                     "value": "Points Total",
+#                     "variable": "Rider"
+#                     },
+#                 title=f"MotoGp Total Points {year}",
+#                 markers = True,
+#                 category_orders={"variable": comb_riders}
 
-            )
+#             )
 
-fig0.update_layout(height=600)
-st.plotly_chart(fig0, theme="streamlit", use_container_width=True, height=600)
+# fig0.update_layout(height=600)
+# st.plotly_chart(fig0, theme="streamlit", use_container_width=True, height=600)
 
-# plot of sprint positions
-fig1 = px.line(
-    spr_pos,
-    x=[i[0] for i in spr_pos["index"].str.split('_')],
-    y=spr_pos.columns[1:],
-    template="plotly_dark",
-    labels={
-        "x": "Track",
-        "value": "Position",
-        "variable": "Rider"
-    },
-    title=f"MotoGp Rider Sprint Positions {year}",
-    markers=True,
-    category_orders={"variable": sorted_riders}
-)
+# # plot of sprint positions
+# fig1 = px.line(
+#     spr_pos,
+#     x=[i[0] for i in spr_pos["index"].str.split('_')],
+#     y=spr_pos.columns[1:],
+#     template="plotly_dark",
+#     labels={
+#         "x": "Track",
+#         "value": "Position",
+#         "variable": "Rider"
+#     },
+#     title=f"MotoGp Rider Sprint Positions {year}",
+#     markers=True,
+#     category_orders={"variable": sorted_riders}
+# )
 
-fig1['layout']['yaxis']['autorange'] = "reversed"
-# fig1['layout']['xaxis']['autorange'] = "reversed"
-fig1.update_layout(height=600)
-# fig1.update_yaxes(range=[1, 25])
-st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
+# fig1['layout']['yaxis']['autorange'] = "reversed"
+# # fig1['layout']['xaxis']['autorange'] = "reversed"
+# fig1.update_layout(height=600)
+# # fig1.update_yaxes(range=[1, 25])
+# st.plotly_chart(fig1, theme="streamlit", use_container_width=True, height=600)
 
-# plot of race positions
-fig2 = px.line(
-    rac_pos,
-    x=[i[0] for i in rac_pos["index"].str.split('_')],
-    y=rac_pos.columns[1:],
-    template="plotly_dark",
-    labels={
-        "x": "Track",
-        "value": "Position",
-        "variable": "Rider"
-    },
-    title=f"MotoGp Rider Race Positions {year}",
-    markers=True,
-    category_orders={"variable": sorted_riders}
-)
+# # plot of race positions
+# fig2 = px.line(
+#     rac_pos,
+#     x=[i[0] for i in rac_pos["index"].str.split('_')],
+#     y=rac_pos.columns[1:],
+#     template="plotly_dark",
+#     labels={
+#         "x": "Track",
+#         "value": "Position",
+#         "variable": "Rider"
+#     },
+#     title=f"MotoGp Rider Race Positions {year}",
+#     markers=True,
+#     category_orders={"variable": sorted_riders}
+# )
 
-fig2['layout']['yaxis']['autorange'] = "reversed"
-# fig2['layout']['xaxis']['autorange'] = "reversed"
-fig2.update_layout(height=600)
-# fig2.update_yaxes(range=[1, 25])
-st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
+# fig2['layout']['yaxis']['autorange'] = "reversed"
+# # fig2['layout']['xaxis']['autorange'] = "reversed"
+# fig2.update_layout(height=600)
+# # fig2.update_yaxes(range=[1, 25])
+# st.plotly_chart(fig2, theme="streamlit", use_container_width=True, height=600)
 
 
-# plot of spr + rac points cummulative
-fig3 = px.line(
-                combined_points.cumsum(), 
-                x=[i[0] for i in combined_points["index"].str.split('_')], 
-                y=combined_points.columns[1:], 
-                template="plotly_dark",
-                labels={
-                    "x": "Track",
-                    "value": "Points Total",
-                    "variable": "Rider"
-                    },
-                title=f"MotoGp Total Cumulative Points {year}",
-                markers = True,
-                category_orders={"variable": comb_riders}
+# # plot of spr + rac points cummulative
+# fig3 = px.line(
+#                 combined_points.cumsum(), 
+#                 x=[i[0] for i in combined_points["index"].str.split('_')], 
+#                 y=combined_points.columns[1:], 
+#                 template="plotly_dark",
+#                 labels={
+#                     "x": "Track",
+#                     "value": "Points Total",
+#                     "variable": "Rider"
+#                     },
+#                 title=f"MotoGp Total Cumulative Points {year}",
+#                 markers = True,
+#                 category_orders={"variable": comb_riders}
 
-            )
+#             )
 
-fig3.update_layout(height=600)
-st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
+# fig3.update_layout(height=600)
+# st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
