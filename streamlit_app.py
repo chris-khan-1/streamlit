@@ -6,8 +6,13 @@ import plotly.express as px
 from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 from ast import literal_eval
+import datetime
+
 
 st.set_page_config(layout="wide")
+
+def get_year():
+    return str(datetime.date.today().year)
 
 def get_gsheet_creds():
     scopes = [
@@ -58,7 +63,7 @@ def get_gsheet_data(name):
 # @st.cache_data(ttl=601800, show_spinner="Fetching data from API...")
 # def get_results(race_type):
 #     dicts = []
-#     year = 2023
+#     yeafr = {year}
 #     for i in [race_type]:
 #         for j in ["POR", "ARG", "AME", "SPA", "FRA", "ITA", "GER", "NED", "KAZ", "GBR", "AUT", "CAT", "RSM", "IND", "JPN", "INA", "AUS", "THA", "MAL", "QAT", "VAL"]:
 #             url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
@@ -123,13 +128,13 @@ def display_selection(all_data, rider):
     elif len(rider) == 3:
         return st.dataframe(df_final.style.apply(lambda x: ['background-color: green' if s == rider[0] else '' 'background-color: #f77d31' if s == rider[1] else '' 'background-color: #af62ff' if s == rider[2] else ''for s in x]), use_container_width=True)
     else:
-        return st.dataframe(df_final)
+        return st.dataframe(df_final, use_container_width=True)
 
     
 # @st.cache_data(show_spinner="Fetching data from API...")
 # def refresh_results(race_type):
 #     dicts = []
-#     year = 2023
+#     yeafr = {year}
 #     for i in [race_type]:
 #         for j in ["POR", "ARG", "AME", "SPA", "FRA", "ITA", "GER", "NED", "KAZ", "GBR", "AUT", "CAT", "RSM", "IND", "JPN", "INA", "AUS", "THA", "MAL", "QAT", "VAL"]:
 #             url = f"https://www.motogp.com/en/gp-results/{year}/{j}/MotoGP/{i}/Classification"
@@ -205,13 +210,14 @@ riders = [
             'Raul_Fernandez'
         ]
 
+year = get_year()
 # Get all data
 all_data = get_gsheet_data("Master").set_index("position")
 # df = pd.read_csv("./data/2019-2022_finishes.csv")
 # df = df.set_index("position")
 
 # Get current data
-df_current = get_gsheet_data("2023")
+df_current = get_gsheet_data(year)
 df_current = df_current.replace("0", "25")
 
 race_points_map = dict(pd.read_csv("./data/motogp_race_points_mapping.csv").values)
@@ -285,15 +291,9 @@ st.subheader("MotoGP Current Results")
 
 st.caption("Doubleclick a rider on the right hand side legend to highlight them. Multiple riders can be selected for comparisons")
 
-# if st.button('Refresh Results'):
-#     # get sprint results
-#     sprint_dicts = refresh_results("SPR")
-#     spr_pos = to_position_df(sprint_dicts)
-
-#     # get race results
-#     race_dicts = refresh_results("RAC")
-#     rac_pos = to_position_df(race_dicts)
-
+if st.button('Refresh Results'):
+    df_current = get_gsheet_data(year)
+    df_current = df_current.replace("0", "25")
 
 # plot of spr + rac points cummulative
 fig0 = px.line(
@@ -306,7 +306,7 @@ fig0 = px.line(
                     "value": "Points Total",
                     "variable": "Rider"
                     },
-                title="MotoGp Total Points 2023",
+                title=f"MotoGp Total Points {year}",
                 markers = True,
                 category_orders={"variable": comb_riders}
 
@@ -326,7 +326,7 @@ fig1 = px.line(
         "value": "Position",
         "variable": "Rider"
     },
-    title="MotoGp Rider Sprint Positions 2023",
+    title=f"MotoGp Rider Sprint Positions {year}",
     markers=True,
     category_orders={"variable": sorted_riders}
 )
@@ -348,7 +348,7 @@ fig2 = px.line(
         "value": "Position",
         "variable": "Rider"
     },
-    title="MotoGp Rider Race Positions 2023",
+    title=f"MotoGp Rider Race Positions {year}",
     markers=True,
     category_orders={"variable": sorted_riders}
 )
@@ -371,7 +371,7 @@ fig3 = px.line(
                     "value": "Points Total",
                     "variable": "Rider"
                     },
-                title="MotoGp Total Cumulative Points 2023",
+                title=f"MotoGp Total Cumulative Points {year}",
                 markers = True,
                 category_orders={"variable": comb_riders}
 
