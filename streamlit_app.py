@@ -382,7 +382,7 @@ fig3 = px.line(
 fig3.update_layout(height=600)
 st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
 
-championship = combined_points.sum()
+championship = pd.dataframe(combined_points.sum())
 championship.reset_index(inplace=True)
 sorted(championship)
 st.dataframe(championship)
