@@ -102,7 +102,6 @@ def pts_fn(x, points_map):
     else:
         return 0
     
-@st.cache_data(show_spinner="Fetching data from API...")
 def display_selection(all_data, rider):
 
     # filtering dataframe based on user selection
@@ -235,9 +234,7 @@ riders = [
 
 year = get_year()
 # Get all data
-all_data = get_gsheet_data("Master").set_index("position")
-# df = pd.read_csv("./data/2019-2022_finishes.csv")
-# df = df.set_index("position")
+all_data = get_all_data()
 
 spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results()
 
