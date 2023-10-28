@@ -383,6 +383,6 @@ fig3.update_layout(height=600)
 st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
 
 championship = pd.DataFrame(combined_points.sum()).reset_index()
-championship.columns = ["rider", "points"]
+# championship.columns = ["rider", "points"]
 
-st.dataframe(championship.sort_values(by="points", ascending=False))
+st.dataframe(championship.sort_values(by="0", ascending=False))
