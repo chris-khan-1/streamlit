@@ -308,6 +308,25 @@ st.caption("Doubleclick a rider on the right hand side legend to highlight them.
 # if st.button('Refresh Results'):
 #     spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = refresh_current_results()
 
+fig00 = px.line(
+                fantasy_df 
+                x=fantasy_df["rider"], 
+                y=fantasy_df.columns[1:], 
+                template="plotly_dark",
+                labels={
+                    "x": "Track",
+                    "value": "Fantasy Points",
+                    "variable": "Rider"
+                    },
+                title=f"MotoGp Fantasy Points {year}",
+                markers = True,
+                category_orders={"variable": comb_riders}
+
+            )
+
+fig00.update_layout(height=600)
+st.plotly_chart(fig00, theme="streamlit", use_container_width=True, height=600)
+
 # plot of spr + rac points cummulative
 fig0 = px.line(
                 combined_points, 
@@ -393,6 +412,6 @@ fig3 = px.line(
 fig3.update_layout(height=600)
 st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
 
-#
+
 st.dataframe(champ_table)
 st.dataframe(fantasy_df)
