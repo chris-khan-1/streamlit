@@ -370,18 +370,18 @@ st.plotly_chart(real_results_comb_plot, theme="streamlit", use_container_width=T
 
 # plot of fantasy team results
 fantasy_team_plot = px.line(
-                fantasy_df,
-                x=[i[0] for i in fantasy_df["index"].str.split('_')], 
-                y=fantasy_df.columns[1:], 
+                fantasy_teams_df,
+                x=[i[0] for i in fantasy_teams_df["index"].str.split('_')], 
+                y=fantasy_teams_df.columns[1:], 
                 template="plotly_dark",
                 labels={
                     "x": "Track",
                     "value": "Fantasy Points",
                     "variable": "Rider"
                     },
-                title=f"MotoGp Fantasy Points {year}",
+                title=f"MotoGp Fantasy Team Points {year}",
                 markers = True,
-                category_orders={"variable": comb_riders}
+                # category_orders={"variable": comb_riders}
 
             )
 
