@@ -390,5 +390,5 @@ fig3 = px.line(
 fig3.update_layout(height=600)
 st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
 
-
+#
 st.dataframe(champ_table)
