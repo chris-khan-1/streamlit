@@ -309,7 +309,7 @@ st.caption("Doubleclick a rider on the right hand side legend to highlight them.
 #     spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = refresh_current_results()
 
 fig00 = px.line(
-                fantasy_df 
+                fantasy_df,
                 x=fantasy_df["rider"], 
                 y=fantasy_df.columns[1:], 
                 template="plotly_dark",
