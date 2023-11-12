@@ -310,8 +310,8 @@ st.caption("Doubleclick a rider on the right hand side legend to highlight them.
 
 fig00 = px.line(
                 fantasy_df,
-                x=fantasy_df["rider"], 
-                y=fantasy_df.columns[1:], 
+                x=fantasy_df.columns[1:], 
+                y=fantasy_df["rider"], 
                 template="plotly_dark",
                 labels={
                     "x": "Track",
