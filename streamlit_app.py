@@ -102,10 +102,19 @@ def filter_points_df(df, race_type):
 
 def filter_position_df(df, race_type):
     b = df.set_index("rider").T.reset_index()
-
+    
     pos = b[b["index"].str.contains(f"{race_type}_pos")] #.fillna(25)
     cols1 = pos.columns
     pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+
+    return pos
+
+
+def filter_fantasy_df(df):
+    pos = df.set_index("rider").T.reset_index() #.fillna(25)
+    cols1 = pos.columns
+    pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+
     return pos
 
 
@@ -269,6 +278,7 @@ spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_r
 champ_table = get_championship_table(combined_points)
 
 fantasy_df = get_gsheet_data(f"{year}_fantasy")
+fantasy_df = filter_fantasy_df(fantasy_df)
 
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
@@ -310,8 +320,8 @@ st.caption("Doubleclick a rider on the right hand side legend to highlight them.
 
 fig00 = px.line(
                 fantasy_df,
-                x=fantasy_df.columns[1:], 
-                y=fantasy_df["rider"], 
+                x=[i[0] for i in pos["index"].str.split('_')], 
+                y=pos.columns[1:], 
                 template="plotly_dark",
                 labels={
                     "x": "Track",
