@@ -267,6 +267,9 @@ all_data = get_all_data()
 spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results()
 
 champ_table = get_championship_table(combined_points)
+
+fantasy_df = get_gsheet_data(f"{year}_fantasy")
+
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
 vert_space = '<div style="padding: 25px 5px;"></div>'
@@ -392,3 +395,4 @@ st.plotly_chart(fig3, theme="streamlit", use_container_width=True, height=600)
 
 #
 st.dataframe(champ_table)
+st.dataframe(fantasy_df)
