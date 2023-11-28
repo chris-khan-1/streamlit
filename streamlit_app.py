@@ -53,7 +53,7 @@ def get_gsheet_data(name):
     # df = df.set_index("position")
     return df
 
-# @st.cache_data(show_spinner="Fetching data from API...") #ttl=601800, 
+@st.cache_data(show_spinner="Fetching data from API...") #ttl=601800, 
 def get_all_data():
     credentials = get_gsheet_creds()
     file = gspread.authorize(credentials) # authenticate the JSON key with gspread
@@ -140,7 +140,7 @@ def display_selection(all_data, rider, track, race_type):
         race_type_shrt = "SPR"
     else:
         race_type_shrt = "$"
-        
+
     # filtering dataframe based on user selection
     acronyms = [i for i, j in tracks.items() if j == track]
 
