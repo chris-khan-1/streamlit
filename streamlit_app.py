@@ -456,3 +456,4 @@ st.plotly_chart(total_plot, theme="streamlit", use_container_width=True, height=
 
 champ_table.index = range(1, len(champ_table)+1)
 st.dataframe(champ_table)
+#
