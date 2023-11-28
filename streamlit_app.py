@@ -401,7 +401,7 @@ sprint_plot = px.line(
     },
     title=f"MotoGp Rider Sprint Positions {year}",
     markers=True,
-    category_orders={"variable": sorted_riders}
+    category_orders={"variable": comb_riders}
 )
 
 sprint_plot['layout']['yaxis']['autorange'] = "reversed"
@@ -423,7 +423,7 @@ race_plot = px.line(
     },
     title=f"MotoGp Rider Race Positions {year}",
     markers=True,
-    category_orders={"variable": sorted_riders}
+    category_orders={"variable": comb_riders}
 )
 
 race_plot['layout']['yaxis']['autorange'] = "reversed"
