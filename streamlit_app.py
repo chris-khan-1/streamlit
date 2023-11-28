@@ -134,15 +134,22 @@ def pts_fn(x, points_map):
 
 def display_selection(all_data, rider, track, race_type):
 
+    if race_type == "Main Race":
+        race_type_shrt = "RAC"
+    elif race_type == "Sprint":
+        race_type_shrt = "SPR"
+    else:
+        race_type_shrt = "$"
+        
     # filtering dataframe based on user selection
     acronyms = [i for i, j in tracks.items() if j == track]
 
     if len(acronyms) == 1:
-        df_final = all_data.filter(like=acronyms[0], axis=1).filter(like=race_type, axis=1)
+        df_final = all_data.filter(like=acronyms[0], axis=1).filter(regex=race_type_shrt, axis=1)
     else:
         dfs = []
         for i in acronyms:
-            dfs.append(all_data.filter(like=i, axis=1).filter(like=race_type, axis=1))
+            dfs.append(all_data.filter(like=i, axis=1).filter(regex=race_type_shrt, axis=1))
         df_final = pd.concat(dfs, axis=1)
 
 
