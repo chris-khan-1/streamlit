@@ -314,7 +314,7 @@ with c1:
 with c2:
     rider = st.multiselect("Select Up To Three Riders:", riders, max_selections=3, default="Francesco_Bagnaia")
 with c3:
-    race_type = st.selectbox("Select Race Type:", ["Both", "Main Race", "Sprint"], default="Both")
+    race_type = st.selectbox("Select Race Type:", ["Both", "Main Race", "Sprint"])
 
 
 display_selection(all_data, rider, track, race_type)
