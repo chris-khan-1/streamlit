@@ -454,5 +454,5 @@ total_plot.update_layout(height=600)
 st.plotly_chart(total_plot, theme="streamlit", use_container_width=True, height=600)
 
 
-st.dataframe(champ_table.reset_index())
-# st.dataframe(fantasy_df)
+champ_table.index = range(1, len(champ_table)+1)
+st.dataframe(champ_table)
