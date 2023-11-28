@@ -430,7 +430,7 @@ race_plot['layout']['yaxis']['autorange'] = "reversed"
 # real_results_comb_plot['layout']['xaxis']['autorange'] = "reversed"
 race_plot.update_layout(height=600)
 # real_results_comb_plot.update_yaxes(range=[1, 25])
-st.plotly_chart(real_results_comb_plot, theme="streamlit", use_container_width=True, height=600)
+st.plotly_chart(race_plot, theme="streamlit", use_container_width=True, height=600)
 
 
 # plot of spr + rac points cummulative
@@ -454,5 +454,5 @@ total_plot.update_layout(height=600)
 st.plotly_chart(total_plot, theme="streamlit", use_container_width=True, height=600)
 
 
-st.dataframe(champ_table)
+st.dataframe(champ_table.reset_index())
 # st.dataframe(fantasy_df)
