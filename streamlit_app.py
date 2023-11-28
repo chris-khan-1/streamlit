@@ -132,17 +132,17 @@ def pts_fn(x, points_map):
         return 0
     
 
-def display_selection(all_data, rider, track):
+def display_selection(all_data, rider, track, race_type):
 
     # filtering dataframe based on user selection
     acronyms = [i for i, j in tracks.items() if j == track]
 
     if len(acronyms) == 1:
-        df_final = all_data.filter(like=acronyms[0], axis=1)
+        df_final = all_data.filter(like=acronyms[0], axis=1).filter(like=race_type, axis=1)
     else:
         dfs = []
         for i in acronyms:
-            dfs.append(all_data.filter(like=i, axis=1))
+            dfs.append(all_data.filter(like=i, axis=1).filter(like=race_type, axis=1))
         df_final = pd.concat(dfs, axis=1)
 
 
@@ -308,14 +308,16 @@ st.title("MotoGP Analytics")
 st.markdown(vert_space, unsafe_allow_html=True)
 st.subheader("MotoGP Previous Results")
 
-c1, c2 = st.columns(2)
+c1, c2, c3= st.columns(3)
 with c1:
     track = st.selectbox("Select Track:", set(tracks.values()))
 with c2:
     rider = st.multiselect("Select Up To Three Riders:", riders, max_selections=3, default="Francesco_Bagnaia")
+with c3:
+    race_type = st.selectbox("Select Race Type:", ["Both", "Main Race", "Sprint"], default="Both")
 
 
-display_selection(all_data, rider, track)
+display_selection(all_data, rider, track, race_type)
 
 
 st.markdown(vert_space, unsafe_allow_html=True)
