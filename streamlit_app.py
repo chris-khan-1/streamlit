@@ -274,7 +274,7 @@ riders = [
             'Marc_Marquez',
             'Lorenzo_Savadori',
             'Luca_Marini',
-            'Fabio_Di',
+            'Fabio_Di_Giannantonio',
             'Alex_Marquez',
             'Franco_Morbidelli',
             'Maverick_Viñales',
