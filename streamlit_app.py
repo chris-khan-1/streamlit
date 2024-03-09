@@ -10,6 +10,7 @@ tracks = get_tracks()
 riders = get_riders()
 
 year = get_year()
+
 # Get all data
 all_data = get_all_data()
 
