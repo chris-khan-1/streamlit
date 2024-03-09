@@ -249,10 +249,10 @@ def get_and_transform_current_results(year):
     rac_pos = filter_position_df(df_current, "RAC")
     rac_points = filter_points_df(df_current, "RAC")
 
-    rac_points["index"] = rac_points["index"].str.replace("_RAC", "")
-    spr_points["index"] = spr_points["index"].str.replace("_SPR", "")
+    rac_points["index"] = rac_points["index"].str.replace("_RAC", "").dropna()
+    spr_points["index"] = spr_points["index"].str.replace("_SPR", "").dropna()
 
-    combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).reset_index()
+    combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).fillna(0).reset_index()
 
     # get riders sorted by points
     comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
