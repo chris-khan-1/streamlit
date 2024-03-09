@@ -10,11 +10,11 @@ tracks = get_tracks()
 riders = get_riders()
 
 year = get_year()
-st.write(year)
+
 # Get all data
 all_data = get_all_data()
 
-spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results()
+spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results(year)
 
 champ_table = get_championship_table(combined_points)
 
@@ -51,7 +51,7 @@ with c3:
     race_type = st.selectbox("Select Race Type:", ["Main Race", "Sprint", "Both"])
 
 
-display_selection(all_data, rider, track, race_type)
+display_selection(all_data, rider, tracks, track, race_type)
 
 
 st.markdown(vert_space, unsafe_allow_html=True)

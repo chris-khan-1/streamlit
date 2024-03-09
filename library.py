@@ -188,7 +188,7 @@ def pts_fn(x, points_map):
         return 0
     
 
-def display_selection(all_data, rider, track, race_type):
+def display_selection(all_data, rider, tracks, track, race_type):
 
     if race_type == "Main Race":
         race_type_shrt = "RAC"
@@ -224,7 +224,7 @@ def display_selection(all_data, rider, track, race_type):
         return st.dataframe(df_final, use_container_width=True)
 
 
-def get_and_transform_current_results():
+def get_and_transform_current_results(year):
     df_current = get_gsheet_data(year)
     df_current = df_current.replace("0", "25")
 
