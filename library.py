@@ -249,8 +249,8 @@ def get_and_transform_current_results(year):
     rac_pos = filter_position_df(df_current, "RAC")
     rac_points = filter_points_df(df_current, "RAC")
 
-    rac_points["index"] = rac_points["index"].str.replace("_RAC", "").dropna()
-    spr_points["index"] = spr_points["index"].str.replace("_SPR", "").dropna()
+    rac_points["index"] = rac_points["index"].str.replace("_RAC", "").dropna(how='all', axis=0)
+    spr_points["index"] = spr_points["index"].str.replace("_SPR", "").dropna(how='all', axis=0) 
 
     combined_points = (rac_points.set_index('index') + spr_points.set_index('index')).fillna(0).reset_index()
 
