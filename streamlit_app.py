@@ -16,6 +16,9 @@ all_data = get_all_data()
 
 spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results(year)
 
+for i in [spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders]:
+    st.write(i)
+
 champ_table = get_championship_table(combined_points)
 
 fantasy_df = get_gsheet_data(f"{year}_fantasy")
