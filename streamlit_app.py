@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.express as px
 
-from .library import *
+from library import *
 
 st.set_page_config(layout="wide")
 
@@ -10,7 +10,7 @@ tracks = get_tracks()
 riders = get_riders()
 
 year = get_year()
-
+st.write(year)
 # Get all data
 all_data = get_all_data()
 
