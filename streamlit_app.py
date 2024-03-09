@@ -1,7 +1,7 @@
 import streamlit as st
 import plotly.express as px
 
-from library import *
+from .library import *
 
 st.set_page_config(layout="wide")
 
