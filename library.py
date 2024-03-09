@@ -226,8 +226,9 @@ def display_selection(all_data, rider, tracks, track, race_type):
 
 def get_and_transform_current_results(year):
     df_current = get_gsheet_data(year)
-    df_current = df_current.replace("0", "25")
-
+    st.write(df_current)
+    df_current = df_current.replace("0", "25").dropna(how='all', axis=0, inplace=True)
+    st.write(df_current)
     race_points_map = dict(pd.read_csv("./data/motogp_race_points_mapping.csv").values)
     sprint_points_map = dict(pd.read_csv("./data/motogp_sprint_points_mapping.csv").values)
 
@@ -252,8 +253,8 @@ def get_and_transform_current_results(year):
     rac_points["index"] = rac_points["index"].str.replace("_RAC", "")
     spr_points["index"] = spr_points["index"].str.replace("_SPR", "")
 
-    rac_points = rac_points.set_index('index')#.dropna(how='all', axis=0, inplace=True)
-    spr_points = spr_points.set_index('index')#.dropna(how='all', axis=0, inplace=True)
+    rac_points = rac_points.set_index('index')
+    spr_points = spr_points.set_index('index')
 
     combined_points = (rac_points + spr_points).fillna(0).reset_index()
 
