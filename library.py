@@ -95,7 +95,7 @@ def get_gsheet_creds():
 
     return credentials
 
-@st.cache_data(show_spinner="Fetching data from API...", ttl=60)
+# @st.cache_data(show_spinner="Fetching data from API...", ttl=60)
 def get_gsheet_data(name):
     credentials = get_gsheet_creds()
     file = gspread.authorize(credentials) # authenticate the JSON key with gspread
@@ -109,7 +109,7 @@ def get_gsheet_data(name):
     # df = df.set_index("position")
     return df
 
-@st.cache_data(show_spinner="Fetching data from API...", ttl=601800)
+# @st.cache_data(show_spinner="Fetching data from API...", ttl=601800)
 def get_all_data():
     credentials = get_gsheet_creds()
     file = gspread.authorize(credentials) # authenticate the JSON key with gspread
