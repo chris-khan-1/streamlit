@@ -241,15 +241,18 @@ def get_and_transform_current_results(year):
     # get sprint results
     # sprint_dicts = get_results("SPR")
     spr_pos = filter_position_df(df_current, "SPR")
+    spr_pos.dropna()
     spr_points = filter_points_df(df_current, "SPR")
 
     # get race results
     # race_dicts = get_results("RAC")
     rac_pos = filter_position_df(df_current, "RAC")
+    rac_pos.dropna
     rac_points = filter_points_df(df_current, "RAC")
 
     rac_points["index"] = rac_points["index"].str.replace("_RAC", "")
     spr_points["index"] = spr_points["index"].str.replace("_SPR", "")
+
 
     rac_points = rac_points.set_index('index')
     spr_points = spr_points.set_index('index')
@@ -264,9 +267,6 @@ def get_and_transform_current_results(year):
     sorted_riders = list(spr_pos.columns)
     sorted_riders.remove('index')
     sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
-
-    st.write(spr_pos)
-    st.write(spr_pos.dropna())
 
     return spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders
 
