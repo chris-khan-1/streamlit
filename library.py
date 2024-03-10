@@ -240,14 +240,12 @@ def get_and_transform_current_results(year):
 
     # get sprint results
     # sprint_dicts = get_results("SPR")
-    spr_pos = filter_position_df(df_current, "SPR")
-    spr_pos.dropna()
+    spr_pos = filter_position_df(df_current, "SPR").dropna()
     spr_points = filter_points_df(df_current, "SPR")
 
     # get race results
     # race_dicts = get_results("RAC")
-    rac_pos = filter_position_df(df_current, "RAC")
-    rac_pos.dropna()
+    rac_pos = filter_position_df(df_current, "RAC").dropna()
     rac_points = filter_points_df(df_current, "RAC")
 
     rac_points["index"] = rac_points["index"].str.replace("_RAC", "")
