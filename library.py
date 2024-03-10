@@ -261,9 +261,9 @@ def get_and_transform_current_results(year):
     comb_riders.remove('index')
 
     # get riders sorted
-    sorted_riders = list(spr_pos.columns)
-    sorted_riders.remove('index')
-    sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
+    sorted_riders = None #list(spr_pos.columns)
+    # sorted_riders.remove('index')
+    # sorted_riders = sorted(sorted_riders)#, key= lambda x: sum(int(x)))
 
     return spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders
 
