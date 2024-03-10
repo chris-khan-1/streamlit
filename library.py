@@ -240,7 +240,7 @@ def get_and_transform_current_results(year):
 
     # get sprint results
     # sprint_dicts = get_results("SPR")
-    spr_pos = filter_position_df(df_current, "SPR")
+    spr_pos = filter_position_df(df_current, "SPR").dropna(axis=0, how="any", inplace=True)
     spr_points = filter_points_df(df_current, "SPR")
 
     # get race results
