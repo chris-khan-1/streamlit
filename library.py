@@ -225,7 +225,6 @@ def display_selection(all_data, rider, tracks, track, race_type):
 
 
 def get_and_transform_current_results(year):
-    st.write(df_current)
     df_current = get_gsheet_data(year).dropna()
     st.write(df_current)
     df_current = df_current.replace("0", "25")
