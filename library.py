@@ -149,7 +149,7 @@ def get_all_data():
 def filter_points_df(df, race_type):
     b = df.set_index("rider").T.reset_index()
 
-    points = b[b["index"].str.contains(f"{race_type}_points")].dropna().fillna(0)
+    points = b[b["index"].str.contains(f"{race_type}_points")]#.dropna().fillna(0)
     cols1 = points.columns
     points[cols1[1:]] = points[cols1[1:]].apply(pd.to_numeric, errors='coerce')
 

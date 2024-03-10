@@ -15,7 +15,7 @@ year = get_year()
 all_data = get_all_data()
 
 spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results(year)
-for i in [spr_pos, spr_points, rac_pos, rac_points, combined_points]:
+for i in [spr_points, rac_points, combined_points]:
     st.dataframe(i)
 champ_table = get_championship_table(combined_points)
 
