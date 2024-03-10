@@ -247,7 +247,7 @@ def get_and_transform_current_results(year):
     # get race results
     # race_dicts = get_results("RAC")
     rac_pos = filter_position_df(df_current, "RAC")
-    rac_pos.dropna
+    rac_pos.dropna()
     rac_points = filter_points_df(df_current, "RAC")
 
     rac_points["index"] = rac_points["index"].str.replace("_RAC", "")
