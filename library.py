@@ -237,7 +237,8 @@ def get_and_transform_current_results(year):
             df_current["_".join(i.split("_")[:2]) + "_points"] = df_current[i].map(lambda x: pts_fn(x, race_points_map))
         elif "SPR" in i:
             df_current["_".join(i.split("_")[:2]) + "_points"] = df_current[i].map(lambda x: pts_fn(x, sprint_points_map))
-
+    st.write(df_current)
+    
     # get sprint results
     # sprint_dicts = get_results("SPR")
     spr_pos = filter_position_df(df_current, "SPR").dropna()
