@@ -13,7 +13,7 @@ year = get_year()
 
 # Get all data
 all_data = get_all_data()
-st.write(all_data)
+
 spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results(year)
 
 champ_table = get_championship_table(combined_points)
@@ -23,6 +23,8 @@ fantasy_df = filter_fantasy_df(fantasy_df).dropna()
 
 fantasy_teams_df = get_gsheet_data(f"{year}_fantasy_constructors")
 fantasy_teams_df = filter_fantasy_teams_df(fantasy_teams_df).dropna()
+
+st.write(get_gsheet_data(year))
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
 vert_space = '<div style="padding: 25px 5px;"></div>'
