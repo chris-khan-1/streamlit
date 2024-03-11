@@ -13,7 +13,7 @@ year = get_year()
 
 # Get all data
 all_data = get_all_data()
-
+st.write(all_data)
 spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_riders = get_and_transform_current_results(year)
 
 champ_table = get_championship_table(combined_points)
