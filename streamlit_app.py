@@ -3,6 +3,8 @@ import plotly.express as px
 
 from library import *
 
+# py -m streamlit run streamlit_app.py
+
 st.set_page_config(layout="wide")
 
 tracks = get_tracks()
@@ -24,7 +26,7 @@ fantasy_df = filter_fantasy_df(fantasy_df).dropna()
 fantasy_teams_df = get_gsheet_data(f"{year}_fantasy_constructors")
 fantasy_teams_df = filter_fantasy_teams_df(fantasy_teams_df).dropna()
 
-st.dataframe(list(get_gsheet_data(year).columns)[::2][1:])#.split("_")[0])
+# st.dataframe(list(get_gsheet_data(year).columns)[::2][1:])#.split("_")[0])
 # _________________________________________________________________________________________________________________
 # START OF PAGE LAYOUT
 vert_space = '<div style="padding: 25px 5px;"></div>'
