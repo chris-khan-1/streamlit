@@ -20,10 +20,10 @@ spr_pos, spr_points, rac_pos, rac_points, combined_points, comb_riders, sorted_r
 
 champ_table = get_championship_table(combined_points)
 
-fantasy_df = get_gsheet_data(f"{year}_fantasy").copy()
+fantasy_df = get_gsheet_data(f"{year}_fantasy")
 fantasy_df = filter_fantasy_df(fantasy_df).dropna()
 
-fantasy_teams_df = get_gsheet_data(f"{year}_fantasy_constructors").copy()
+fantasy_teams_df = get_gsheet_data(f"{year}_fantasy_constructors")
 fantasy_teams_df = filter_fantasy_teams_df(fantasy_teams_df).dropna()
 
 calendar_df = get_calendar(year)
