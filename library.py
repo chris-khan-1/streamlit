@@ -183,9 +183,13 @@ def filter_fantasy_teams_df(df):
 
 
 def pts_fn(x, points_map):
-    if x!= "" and int(x) in points_map.keys():
-        return points_map[int(x)]
-    else:
+    try:
+        int(x)
+        if x!= "" and int(x) in points_map.keys():
+            return points_map[int(x)]
+        else:
+            return 0
+    except TypeError:
         return 0
     
 
@@ -226,7 +230,7 @@ def display_selection(all_data, rider, tracks, track, race_type):
 
 
 def get_and_transform_current_results(year):
-    df_current = get_gsheet_data(year).replace("", None).dropna(axis=1)
+    df_current = get_gsheet_data(year).replace("", None).dropna(axis=1, how="all")
     df_current = df_current.replace("0", "25")
     race_points_map = dict(pd.read_csv("./data/motogp_race_points_mapping.csv").values)
     sprint_points_map = dict(pd.read_csv("./data/motogp_sprint_points_mapping.csv").values)
@@ -241,21 +245,20 @@ def get_and_transform_current_results(year):
     
     # get sprint results
     # sprint_dicts = get_results("SPR")
-    spr_pos = filter_position_df(df_current, "SPR").dropna()
+    spr_pos = filter_position_df(df_current, "SPR")
     spr_points = filter_points_df(df_current, "SPR")
 
     # get race results
     # race_dicts = get_results("RAC")
-    rac_pos = filter_position_df(df_current, "RAC").dropna()
+    rac_pos = filter_position_df(df_current, "RAC")
     rac_points = filter_points_df(df_current, "RAC")
-
+    
     rac_points["index"] = rac_points["index"].str.replace("_RAC", "")
     spr_points["index"] = spr_points["index"].str.replace("_SPR", "")
 
-
     rac_points = rac_points.set_index('index')
     spr_points = spr_points.set_index('index')
-
+    
     combined_points = (rac_points + spr_points).fillna(0).reset_index().infer_objects(copy=False)
 
     # get riders sorted by points
