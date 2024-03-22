@@ -6,7 +6,7 @@ import gspread
 import datetime
 
 # Set option to opt-in to the future behavior
-pd.set_option('future.no_silent_downcasting', True)
+# pd.set_option('future.no_silent_downcasting', True)
 
 def get_tracks():
     return {"NED": "Assen (Netherlands)",
