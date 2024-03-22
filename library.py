@@ -5,6 +5,9 @@ from oauth2client.service_account import ServiceAccountCredentials
 import gspread
 import datetime
 
+# Set option to opt-in to the future behavior
+pd.set_option('future.no_silent_downcasting', True)
+
 def get_tracks():
     return {"NED": "Assen (Netherlands)",
             "ITA": "Mugello (Italy)",
@@ -151,32 +154,30 @@ def filter_points_df(df, race_type):
 
     points = b[b["index"].str.contains(f"{race_type}_points")]#.dropna().fillna(0)
     cols1 = points.columns
-    points[cols1[1:]] = points[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+    points.loc[:, cols1[1:]] = points.loc[:, cols1[1:]].apply(pd.to_numeric, errors='coerce')
 
     return points
-
 
 def filter_position_df(df, race_type):
     b = df.set_index("rider").T.reset_index()
     
     pos = b[b["index"].str.contains(f"{race_type}_pos")] #.fillna(25)
     cols1 = pos.columns
-    pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+    pos.loc[:, cols1[1:]] = pos.loc[:, cols1[1:]].apply(pd.to_numeric, errors='coerce')
 
     return pos
-
 
 def filter_fantasy_df(df):
     pos = df.set_index("rider").T.reset_index() #.fillna(25)
     cols1 = pos.columns
-    pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+    pos.loc[:, cols1[1:]] = pos.loc[:, cols1[1:]].apply(pd.to_numeric, errors='coerce')
 
     return pos
 
 def filter_fantasy_teams_df(df):
     pos = df.set_index("team").T.reset_index() #.fillna(25)
     cols1 = pos.columns
-    pos[cols1[1:]] = pos[cols1[1:]].apply(pd.to_numeric, errors='coerce')
+    pos.loc[:, cols1[1:]] = pos.loc[:, cols1[1:]].apply(pd.to_numeric, errors='coerce')
 
     return pos
 
@@ -255,7 +256,7 @@ def get_and_transform_current_results(year):
     rac_points = rac_points.set_index('index')
     spr_points = spr_points.set_index('index')
 
-    combined_points = (rac_points + spr_points).fillna(0).reset_index()
+    combined_points = (rac_points + spr_points).fillna(0).reset_index().infer_objects(copy=False)
 
     # get riders sorted by points
     comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
@@ -280,5 +281,12 @@ def get_championship_table(combined_points):
     c = c.loc[c["rider"] != "index"]
     c.columns = ["Rider", "Points"]
     c = c.sort_values(by="Points", ascending=False)
-    c["Difference"] = [max(c.Points) - i if i != max(c.Points) else "-" for i in c.Points]
+    c["Difference"] = [max(c.Points) - i if i != max(c.Points) else 0 for i in c.Points]
+    c["Difference"] = c["Difference"].astype(int)
     return c
+
+def get_calendar(year):
+    calendar_list = [item.split("_")[0] for item in list(get_gsheet_data(year).columns)[::2][1:]]
+    calendar_df = pd.DataFrame(calendar_list).T
+    calendar_df.columns = [i for i in range(1, len(calendar_df.columns)+1)]
+    return calendar_df
