@@ -230,7 +230,12 @@ def display_selection(all_data, rider, tracks, track, race_type):
 
 
 def get_and_transform_current_results(year):
-    df_current = get_gsheet_data(year).replace("", None).dropna(axis=1, how="all")
+    df_current = get_gsheet_data(year).replace("", None)
+    
+    if year == get_year():
+        # drop empty columns if current year
+        df_current = df_current.dropna(axis=1, how="all")
+
     df_current = df_current.replace("0", "25")
     race_points_map = dict(pd.read_csv("./data/motogp_race_points_mapping.csv").values)
     sprint_points_map = dict(pd.read_csv("./data/motogp_sprint_points_mapping.csv").values)
@@ -259,7 +264,8 @@ def get_and_transform_current_results(year):
     rac_points = rac_points.set_index('index')
     spr_points = spr_points.set_index('index')
     
-    combined_points = (rac_points + spr_points).fillna(0).reset_index().infer_objects(copy=False)
+    combined_points = rac_points.add(spr_points, fill_value=0)
+    combined_points = combined_points.reset_index().infer_objects(copy=False)
 
     # get riders sorted by points
     comb_riders = list(combined_points.sum(axis=0).apply(pd.to_numeric, errors='coerce').sort_values(ascending=False).index)
