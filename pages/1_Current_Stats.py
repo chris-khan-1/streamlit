@@ -131,6 +131,56 @@ fantasy_team_plot = px.line(
 fantasy_team_plot.update_layout(height=600)
 st.plotly_chart(fantasy_team_plot, theme="streamlit", use_container_width=True, height=600)
 
+# plot of spr + rac points cummulative
+total_plot = px.line(
+                combined_points.cumsum(), 
+                x=[i[0] for i in combined_points["index"].str.split('_')], 
+                y=combined_points.columns[1:], 
+                template="plotly_dark",
+                labels={
+                    "x": "Track",
+                    "value": "Points Total",
+                    "variable": "Rider"
+                    },
+                title=f"MotoGp Total Cumulative Points {year}",
+                markers = True,
+                category_orders={"variable": comb_riders}
+            )
+
+total_plot.update_layout(height=600)
+st.plotly_chart(total_plot, theme="streamlit", use_container_width=True, height=600)
+
+# plot of fantasy points cummulative
+fantasy_total_plot = px.line(
+                fantasy_df.cumsum(), 
+                x=[i[0] for i in combined_points["index"].str.split('_')], 
+                y=combined_points.columns[1:], 
+                template="plotly_dark",
+                labels={
+                    "x": "Track",
+                    "value": "Points Total",
+                    "variable": "Rider"
+                    },
+                title=f"MotoGp Fantasy Total Cumulative Points {year}",
+                markers = True,
+                category_orders={"variable": comb_riders}
+            )
+
+fantasy_total_plot.update_layout(height=600)
+st.plotly_chart(fantasy_total_plot, theme="streamlit", use_container_width=True, height=600)
+
+# championship tables
+champ_table.index = range(1, len(champ_table)+1)
+
+col1, col2 = st.columns(2)
+
+col1.markdown("Grand Prix Championship")
+col1.dataframe(champ_table)
+
+col2.markdown("Fantasy Championship")
+col2.dataframe(get_championship_table(fantasy_df))
+
+
 # plot of sprint positions
 sprint_plot = px.line(
     spr_pos,
@@ -174,29 +224,3 @@ race_plot['layout']['yaxis']['autorange'] = "reversed"
 race_plot.update_layout(height=600)
 # real_results_comb_plot.update_yaxes(range=[1, 25])
 st.plotly_chart(race_plot, theme="streamlit", use_container_width=True, height=600)
-
-
-# plot of spr + rac points cummulative
-total_plot = px.line(
-                combined_points.cumsum(), 
-                x=[i[0] for i in combined_points["index"].str.split('_')], 
-                y=combined_points.columns[1:], 
-                template="plotly_dark",
-                labels={
-                    "x": "Track",
-                    "value": "Points Total",
-                    "variable": "Rider"
-                    },
-                title=f"MotoGp Total Cumulative Points {year}",
-                markers = True,
-                category_orders={"variable": comb_riders}
-
-            )
-
-total_plot.update_layout(height=600)
-st.plotly_chart(total_plot, theme="streamlit", use_container_width=True, height=600)
-
-
-champ_table.index = range(1, len(champ_table)+1)
-st.dataframe(champ_table)
-
